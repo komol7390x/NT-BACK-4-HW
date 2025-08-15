@@ -1,12 +1,14 @@
-// src/database/databasa.js
 import { Sequelize } from 'sequelize';
 import { env } from '../config/env.config.js';
 
-const { DATABASE, USER, PASS, HOST, PORT, DIALECT } = env.DATABASE;
-
-export const sequelize = new Sequelize(DATABASE, USER, PASS, {
-  host: HOST,
-  port: PORT,
-  dialect: DIALECT,
-  logging:false
-});
+export const sequelize = new Sequelize(
+  env.DATABASE.database, // 'market2'
+  env.DATABASE.user,     // 'postgres'
+  env.DATABASE.pass,     // '1234'
+  {
+    host: env.DATABASE.host,   // 'localhost'
+    dialect: env.DATABASE.dialect, // 'postgres'
+    port: env.DATABASE.port,   // '5432'
+    logging: false
+  }
+);

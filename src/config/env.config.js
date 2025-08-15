@@ -7,11 +7,11 @@ export const env = {
     TOKEN: process.env.BOT_TOKEN
   },
   DATABASE: {
-    DATABASE: process.env.DB_NAME,
-    USER: process.env.DB_USER,
-    PASS: process.env.DB_PASS,
-    HOST: process.env.DB_HOST,
-    PORT: process.env.DB_PORT,
-    DIALECT: process.env.DIALECT
+    database: process.env.DB_NAME,
+    user: process.env.DB_USER,
+    pass: process.env.DB_PASS,
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    dialect: process.env.DB_DIALECT
   }
 };

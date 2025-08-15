@@ -1,14 +1,16 @@
 import { Telegraf } from "telegraf";
 
-import {env} from './config/env.config.js'
+import { env } from './config/env.config.js'
 import { command } from "./command/bot.command.js";
 import { router } from "./routes/index.route.js";
-const token=env.BOT.TOKEN
+import { createDatabasa } from './utils/create.databasa.js'
 
-const bot=new Telegraf(String(token))
+const token = env.BOT.TOKEN
 
+const bot = new Telegraf(String(token))
+
+await createDatabasa()
 await command(bot)
-// await createDatabasa()
 await router(bot)
 
 
