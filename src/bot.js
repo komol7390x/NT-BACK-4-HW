@@ -11,29 +11,6 @@ const baseKeyboard=[
     'Menu','Sozlamalar','Biz haqimizada','Savat'
 ]
 await command(bot)
-const filePath=join(process.cwd(),'1.png')
-const foods=[
-    {
-        id:1,
-        name:'Mastava',
-        image:filePath
-    },
-    {
-        id:2,
-        name:'Osh',
-        image:filePath
-    },
-    {
-        id:3,
-        name:'Shorva',
-        image:filePath
-    },
-    {
-        id:4,
-        name:'Xonim',
-        image:filePath
-    },
-]
 
 bot.start(ctx=>{
     const name=ctx.message.chat?.first_name??ctx.message.chat.username
