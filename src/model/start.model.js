@@ -7,6 +7,6 @@ export const startModel = sequelize.define('start', {
   help: { type: DataTypes.STRING, allowNull: false, unique: true },
   history: { type: DataTypes.STRING, allowNull: false, unique: true }
 }, {
-  tableName: 'start', // kichik harf bilan yozish
+  tableName: 'start',
   timestamps: false
 });
