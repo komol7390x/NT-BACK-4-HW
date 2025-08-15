@@ -1,5 +1,5 @@
-export const loopMenu = async (model) => {
 
+export const arrInArr = async (model) => {
     const data = (await model.findAll())[0].dataValues
     let arr = []
     let arr2 = []
@@ -14,6 +14,16 @@ export const loopMenu = async (model) => {
             arr2 = [];
             c = 0;
         }
+    }
+    return arr
+}
+
+export const arrayMenu = async (model) => {
+    const data = (await model.findAll())[0].dataValues
+    let arr = []
+    for (let [key, value] of Object.entries(data)) {
+        if (key == 'id') continue;
+        arr.push(value)
     }
     return arr
 }

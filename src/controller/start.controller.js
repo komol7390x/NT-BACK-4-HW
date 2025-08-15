@@ -1,9 +1,9 @@
 import { Markup } from 'telegraf'
 import { startModel } from '../model/start.model.js'
-import { loopMenu } from '../utils/loop.menu.js'
+import { arrInArr } from '../utils/loop.menu.js'
 import { join } from 'path'
 
-const result = Markup.keyboard(await loopMenu(startModel)).resize()
+const result = Markup.keyboard(await arrInArr(startModel)).resize()
 
 export const startController = async (ctx) => {
     try {
