@@ -27,3 +27,12 @@ export const arrayMenu = async (model) => {
     }
     return arr
 }
+
+export const menuObj = async (model) => {
+    const data = (await model.findAll())
+    const arr = []
+    for (let i = 0; i < data.length; i++) {
+        arr.push(data[i].dataValues)
+    }
+    return arr
+}

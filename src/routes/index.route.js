@@ -1,6 +1,7 @@
 import { startController } from '../controller/start.controller.js'
 import { startModel } from '../model/start.model.js'
 import { arrayMenu } from '../utils/loop.menu.js'
+import { menuController } from '../controller/menu.controller.js'
 
 const arr = await arrayMenu(startModel)
 
@@ -13,7 +14,8 @@ export const router = async (bot) => {
         const name = ctx.update.message.text
         ctx.reply(`Siz ${name} tanlandingiz  😊`)
         if (name == 'Menu') {
-            console.log(name);
+            // console.log(name);
+            menuController(ctx)
         } else if (name == 'Yordam') {
             console.log(name);
         } else if (name == 'Sozlamalar') {
