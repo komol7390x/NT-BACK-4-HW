@@ -9,7 +9,7 @@ const token = env.BOT.TOKEN
 
 const bot = new Telegraf(String(token))
 
-await createDatabasa()
+// await createDatabasa()
 await command(bot)
 await router(bot)
 
