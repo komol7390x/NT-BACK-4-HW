@@ -1,16 +1,13 @@
 import { Telegraf } from "telegraf";
 import {env} from './config/env.config.js'
-import { join } from "path";
 import { command } from "./command/bot.command.js";
-
+import { deleteMessageTelegram } from "./utils/delete-last-message.js";
 const token=env.BOT.TOKEN
 
 const bot=new Telegraf(String(token))
 
-const baseKeyboard=[
-    'Menu','Sozlamalar','Biz haqimizada','Savat'
-]
 await command(bot)
+// await deleteMessageTelegram(bot)
 
 bot.start(ctx=>{
     const name=ctx.message.chat?.first_name??ctx.message.chat.username
