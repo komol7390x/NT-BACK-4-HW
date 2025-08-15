@@ -1,0 +1,25 @@
+{
+  "name": "nt-back-4-hw",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "type": "module",
+  "scripts": {
+    "start": "node --watch src/bot.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/komol7390x/NT-BACK-4-HW.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/komol7390x/NT-BACK-4-HW/issues"
+  },
+  "homepage": "https://github.com/komol7390x/NT-BACK-4-HW#readme",
+  "dependencies": {
+    "dotenv": "^17.2.1",
+    "telegraf": "^4.16.3"
+  }
+}
