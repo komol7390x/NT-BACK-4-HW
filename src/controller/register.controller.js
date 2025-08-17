@@ -11,6 +11,11 @@ export const registerController = async (bot) => {
         },
         // 1: Ismni qabul qilish
         async (ctx) => {
+            if (ctx.message.text === '/reset') {
+                ctx.scene.leave();
+                await ctx.reply("♻️ Sessiya tozalandi. Qayta boshlash uchun /start bosing.");
+                return; // ❗️ bu juda muhim, keyingi stepga o'tmaslik uchun
+            }
             if (!ctx.message || !('text' in ctx.message)) {
                 await ctx.reply("❗️ Faqat matn yuboring: ismingizni yozing.");
                 return;
@@ -27,6 +32,11 @@ export const registerController = async (bot) => {
         },
         // 2: Telefonni qabul qilish
         async (ctx) => {
+            if (ctx.message.text === '/reset') {
+                ctx.scene.leave();
+                await ctx.reply("♻️ Sessiya tozalandi. Qayta boshlash uchun /start bosing.");
+                return; // ❗️ bu juda muhim, keyingi stepga o'tmaslik uchun
+            }
             if (!ctx.message || !('contact' in ctx.message)) {
                 await ctx.reply(
                     "❗️ Pastdagi tugma orqali o‘zingizning kontaktingizni yuboring.",
@@ -60,7 +70,11 @@ export const registerController = async (bot) => {
                 );
                 return;
             }
-
+            if (ctx.message.text === '/reset') {
+                ctx.scene.leave();
+                await ctx.reply("♻️ Sessiya tozalandi. Qayta boshlash uchun /start bosing.");
+                return; // ❗️ bu juda muhim, keyingi stepga o'tmaslik uchun
+            }
             const { latitude, longitude } = ctx.message.location;
             const data = ctx.scene.state.data;
             const mapsLink = `https://maps.google.com/?q=${latitude},${longitude}`;
@@ -88,13 +102,16 @@ export const registerController = async (bot) => {
     bot.start((ctx) => ctx.scene.enter('reg-wizard'));
 
     // reset / cancel komandalar
-    bot.command('reset', (ctx) => {
-        ctx.scene.leave();
-        ctx.reply("♻️ Sessiya tozalandi. Qayta boshlash uchun /start bosing.");
+    bot.command('reset', async (ctx) => {
+        await ctx.scene.leave(); // hozirgi jarayonni to‘xtat
+        await ctx.reply("♻️ Sessiya tozalandi. Qayta boshlaymiz...");
+        return ctx.scene.enter('reg-wizard'); // boshidan qayta boshlash
     });
 
-    bot.command('cancel', (ctx) => {
-        ctx.scene.leave();
-        ctx.reply("❌ Bekor qilindi. Qayta boshlash uchun /start bosing.", Markup.removeKeyboard());
+    // /cancel komandasi - faqat chiqib ketadi
+    bot.command('cancel', async (ctx) => {
+        await ctx.scene.leave();
+        return ctx.reply("❌ Jarayon bekor qilindi. Qayta boshlash uchun /start bosing.", Markup.removeKeyboard());
+        return ctx.scene.enter('reg-wizard'); // boshidan qayta boshlash
     });
 }
