@@ -1,6 +1,7 @@
 import { sequelize } from '../database/databasa.js';
 import { startModel } from '../model/start.model.js';
 import { menuModel } from '../model/menu.model.js';
+
 export const createDatabasa = async () => {
   (async () => {
     try {
@@ -31,7 +32,9 @@ export const createDatabasa = async () => {
       }
       console.log('✅ Data inserted');
     } catch (error) {
-      console.error('❌ Error:', error.message);
+      console.log(error.message);
+      
+      // console.error('❌ Error:', error.message);
     } finally {
       await sequelize.close();
     }
