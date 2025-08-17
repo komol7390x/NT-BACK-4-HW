@@ -12,7 +12,7 @@ export const startController = async (ctx) => {
         return await ctx.replyWithPhoto(
             { source: path },
             {
-                caption: `Assalomu alaykum hurmatli ${name}\nQuyidaglarni birini tanlang! 👇🏼`,
+                caption: `Assalomu alaykum hurmatli mijoz ${name}\nQuyidaglarni birini tanlang! 👇🏼`,
                 ...result
             }
         );
