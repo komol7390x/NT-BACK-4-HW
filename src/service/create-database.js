@@ -20,8 +20,6 @@ class Database {
         try {
             await sequelize.authenticate();
             await sequelize.sync({ alter: true }); // agar jadval yo‘q bo‘lsa yaratadi
-            console.log(key, value);
-
             const result = await model.findOne({
                 where: { [key]: value }, // 👈 bu yer to‘g‘ri
             });
