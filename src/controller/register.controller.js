@@ -13,6 +13,11 @@ export const registerController = async (bot) => {
     const registration = new Scenes.WizardScene(step.register,
         async (ctx) => {
             try {
+                const user_id = ctx.from.id
+                const user = await Database.findOne(user_id, userModel)
+                if (user) {
+                    return ctx.reply('Aloqachon ber')
+                }
                 const data = {
                     user_id: String(ctx.from.id),
                     is_bot: ctx.from.is_bot,
@@ -20,6 +25,8 @@ export const registerController = async (bot) => {
                     username: ctx.from.username ?? 'username',
                     lang: ctx.from.language_code ?? 'en'
                 }
+
+
                 const result = await Database.create(data, userModel)
                 console.log(result);
 
