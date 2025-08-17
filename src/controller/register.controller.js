@@ -81,7 +81,7 @@ export const registerController = async (bot) => {
                 const req = await axios.get(mapLocation)
 
                 ctx.scene.state.register.address = req?.data.display_name.split(',').reverse().slice(2).join(',\n')
-                ctx.scene.state.register.location = mapLocation
+                ctx.scene.state.register.location = `https://www.google.com/maps?q=${latitude},${longitude}`;
 
                 const info = ctx.scene.state?.register
 
@@ -110,7 +110,11 @@ export const registerController = async (bot) => {
                             map: user.location
                         }
                         await Database.create(data, userModel)
-                        return ctx.reply('Siz mufaqiyatli royhatdan otingiz: ' + data.username)
+                        let info = ''
+                        for await (let [key, value] of Object.entries(data)) {
+                            info += key + ':' + value + '\n'
+                        }
+                        return ctx.reply('Siz mufaqiyatli ro\'yhatdan o\'tingiz: ' + info)
                     } else if (ctx.message.text == '❌ Rad etish') {
                         ctx.reply('Barcha so\'rovlar rad etildi \nQayta boshlash uchun /start tugmasini bosing!')
                         return ctx.scene.leave()
