@@ -19,7 +19,7 @@ export const arrInArr = async (model) => {
 }
 
 export const arrayMenu = async (model) => {
-    const data = (await model.findAll())[0].dataValues
+    const data = (await model.findAll())[0]?.dataValues
     let arr = []
     for (let [key, value] of Object.entries(data)) {
         if (key == 'id') continue;

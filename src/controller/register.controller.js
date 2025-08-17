@@ -1,6 +1,9 @@
-import { Markup, Scenes, session } from 'telegraf'
-import { step } from '../const/step.js'
 import axios from 'axios';
+import { Markup, Scenes } from 'telegraf'
+
+import Database from '../service/create-database.js'
+import { userModel } from '../model/user.model.js';
+import { step } from '../const/step.js'
 
 const markLocation = Markup.keyboard([[Markup.button.locationRequest('📍 Lokatsiyani yuborish')]]).resize().oneTime();
 const markContact = Markup.keyboard([[Markup.button.contactRequest('📱 Raqamni yuborish')]]).resize().oneTime();
@@ -10,6 +13,18 @@ export const registerController = async (bot) => {
     const registration = new Scenes.WizardScene(step.register,
         async (ctx) => {
             try {
+                const data = {
+                    user_id: String(ctx.from.id),
+                    is_bot: ctx.from.is_bot,
+                    first_name: ctx.from?.first_name ?? 'user',
+                    username: ctx.from.username ?? 'username',
+                    lang: ctx.from.language_code ?? 'en'
+                }
+                const result = await Database.create(data, userModel)
+                console.log(result);
+
+                console.log('boshlangish holatda create bo\'ldi');
+
                 // state bosh massivga tenglashtrib qo'yiladi
                 ctx.scene.state.register = {};
                 // foydalanuvchidan ism so'raladi 
@@ -18,7 +33,7 @@ export const registerController = async (bot) => {
                     Markup.keyboard([[name]]).resize().oneTime())
                 return ctx.wizard.next()
             } catch (error) {
-                return ctx.reply('Error: ' + error.message)
+                return ctx.reply('Error: ' + error)
 
             }
         },
@@ -91,11 +106,10 @@ export const registerController = async (bot) => {
             try {
                 if (ctx.message) {
                     if (ctx.message.text == '✅ Tasdiqlash') {
-                        // console.log('Tasdiqlash');
+
                     } else if (ctx.message.text == '❌ Rad etish') {
                         ctx.reply('Barcha so\'rovlar rad etildi \nQayta boshlash uchun /start tugmasini bosing!')
-                        delete ctx.scene.state.register
-                        return ctx.wizard.next()
+                        return ctx.scene.leave()
                     } else {
                         return ctx.reply('Iltmos pastigi ikki tugmadan birini bosing',
                             access

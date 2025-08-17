@@ -14,7 +14,6 @@ export const router = async (bot) => {
         const name = ctx.update.message.text
         ctx.reply(`Siz ${name} tanlandingiz  😊`)
         if (name == 'Menu') {
-            // console.log(name);
             menuController(ctx)
         } else if (name == 'Yordam') {
             console.log(name);
