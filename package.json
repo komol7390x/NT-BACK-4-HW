@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/komol7390x/NT-BACK-4-HW#readme",
   "dependencies": {
+    "axios": "^1.11.0",
     "dotenv": "^17.2.1",
     "pg": "^8.16.3",
     "pg-hstore": "^2.3.4",
