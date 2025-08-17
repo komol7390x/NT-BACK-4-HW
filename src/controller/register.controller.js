@@ -13,25 +13,10 @@ export const registerController = async (bot) => {
     const registration = new Scenes.WizardScene(step.register,
         async (ctx) => {
             try {
-                const user_id = ctx.from.id
-                const user = await Database.findOne(user_id, userModel)
-                if (user) {
-                    return ctx.reply('Aloqachon ber')
+                const user_id = await Database.findOne('user_id', String(ctx.from.id), userModel)
+                if (user_id) {
+                    return ctx.reply('Siz alaqachon royxat o\'tgansiz')
                 }
-                const data = {
-                    user_id: String(ctx.from.id),
-                    is_bot: ctx.from.is_bot,
-                    first_name: ctx.from?.first_name ?? 'user',
-                    username: ctx.from.username ?? 'username',
-                    lang: ctx.from.language_code ?? 'en'
-                }
-
-
-                const result = await Database.create(data, userModel)
-                console.log(result);
-
-                console.log('boshlangish holatda create bo\'ldi');
-
                 // state bosh massivga tenglashtrib qo'yiladi
                 ctx.scene.state.register = {};
                 // foydalanuvchidan ism so'raladi 
@@ -113,7 +98,19 @@ export const registerController = async (bot) => {
             try {
                 if (ctx.message) {
                     if (ctx.message.text == '✅ Tasdiqlash') {
-
+                        const user = ctx.scene.state.register
+                        const data = {
+                            user_id: String(ctx.from.id),
+                            is_bot: ctx.from.is_bot,
+                            first_name: ctx.from?.first_name ?? 'user',
+                            username: user.fullName ?? 'username',
+                            lang: ctx.from.language_code ?? 'en',
+                            phone_number: user.phoneNumber,
+                            address: user.address,
+                            map: user.location
+                        }
+                        await Database.create(data, userModel)
+                        return ctx.reply('Siz mufaqiyatli royhatdan otingiz: ' + data.username)
                     } else if (ctx.message.text == '❌ Rad etish') {
                         ctx.reply('Barcha so\'rovlar rad etildi \nQayta boshlash uchun /start tugmasini bosing!')
                         return ctx.scene.leave()
