@@ -33,7 +33,7 @@ type Phone = {
     price: number
 }
 
-const maxPrice = (phones: Phone[]) => {
+const maxPrice = (phones: Phone[]):object => {
     return phones.reduce((max, item) => item.price < max.price ? item : max);
 }
 const phones: Phone[] = [
@@ -51,7 +51,7 @@ type Students = {
     grade: number,
     isActive: boolean
 }
-const isActiveStudents = (arr: Students[]) => {
+const isActiveStudents = (arr: Students[]):object => {
     return arr.filter(item=>item.isActive)
 }
 const students: Students[] = [
