@@ -27,7 +27,7 @@ type Product = {
 const products = (arr: Product[]): object => {
     return arr.filter(item=>item.price>100)
 }
-const productInfo = [
+const productInfo:Product[] = [
     { id: 1, name: 'Olma', price: 500, inStock: 100 },
     { id: 2, name: 'Banan', price: 75, inStock: 80 },
     { id: 3, name: 'Uzum', price: 100, inStock: 60 },
