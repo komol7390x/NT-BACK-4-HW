@@ -12,6 +12,8 @@ class Database {
         } catch (error) {
             console.error("❌ Create error:", error.message);
             throw error;
+        } finally {
+            await sequelize.close();
         }
     };
 
@@ -27,6 +29,8 @@ class Database {
         } catch (error) {
             console.error("❌ FindOne error:", error.message);
             throw error;
+        } finally {
+            await sequelize.close();
         }
     };
 
@@ -49,6 +53,8 @@ class Database {
         } catch (error) {
             console.error("❌ UpdateById error:", error.message);
             throw error;
+        } finally {
+            await sequelize.close();
         }
     };
 
