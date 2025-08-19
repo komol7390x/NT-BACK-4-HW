@@ -158,3 +158,10 @@ const user2: User2[] = [
 // showUser(<[]>user2)
 // -------------------------------------------------------------------------------
 // 8
+const wrapInArray=<T>(item:T):T[]=>{
+    let arr:T[]=[item]
+    return arr
+}
+// console.log((wrapInArray(1)));
+// console.log((wrapInArray('Salom')));
+// console.log((wrapInArray(false)));
