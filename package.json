@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npx tsx watch index.ts"
+    "start": "npx tsx watch index.ts",
+    "bonus":"npx tsx watch Bonus.ts"
   },
   "repository": {
     "type": "git",
