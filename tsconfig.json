@@ -1,14 +1,10 @@
 {
   "compilerOptions": {
-    "target": "ES2020",                  // transpilyatsiya qilinadigan JavaScript versiyasi
-    "module": "commonjs",                // modul turi (Node.js uchun commonjs)
-    "rootDir": "./src",                  // manba kod joylashgan papka
-    "outDir": "./dist",                  // transpilyatsiya qilingan kod chiqadigan papka
-    "strict": true,                      // qat’iy tekshiruvlarni yoqish
-    "esModuleInterop": true,             // import/export bilan moslashuvchanlik
-    "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true
+    "target": "es6",            // JS versiyasi
+    "module": "commonjs",          // Node.js uchun mos
+    "strict": true,                // qat’iy tekshiruvlar
+    "esModuleInterop": true,       // importlarni osonlashtirish
+    "outDir": "./dist"             // kompilyatsiya natijasi
   },
-  "include": ["src"],                    // qaysi fayllarni o‘qishi
-  "exclude": ["node_modules", "dist"]    // qaysilarni tashlab ketishi
+  "include": ["index.ts"]
 }
