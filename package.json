@@ -3,11 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "type": "module",
   "scripts": {
-    "task1": "npx tsx watch src/task-1.ts",
-    "task2": "npx tsx watch src/task-2.ts",
-    "task3": "npx tsx watch src/task-3.ts"
+    "start": "npx tsx watch index.ts"
   },
   "repository": {
     "type": "git",
