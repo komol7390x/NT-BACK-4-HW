@@ -139,7 +139,7 @@ const userRequired: Required<IUser> = {
 }
 // console.log(userRequired);
 // ----------------------------------------------
-// 4-Partials
+// 2-Partials
 
 const updateProfile=(updates:Partial<IUser>):IUser=>{
     const update={...userRequired,...updates}
@@ -148,4 +148,54 @@ const updateProfile=(updates:Partial<IUser>):IUser=>{
 // console.log(updateProfile({name:'Sherzod'}));
 // console.log(updateProfile({age:30,email:'sherka1233@gmail.com'}));
 // ----------------------------------------------
-// 5-Pick & Omit
+// 3-Pick & Omit
+const pickUser:Pick<IUser,'name'|'email'>={
+    name:'Bekzod',
+    email:'www.beka111@gmail.com'
+}
+// console.log(pickUser);
+const omitUser:Omit<IUser,'password'>={
+    name:'Nigora',
+    email:'nigosh@gmail.com',
+    age:22
+}
+// console.log(omitUser);
+// ----------------------------------------------
+// 4-Exclude & Extract
+type Status="pending" | "success" | "failed";
+const user1:Exclude<Status,'pending'>='failed'
+const user2:Exclude<Status,'pending'>='success'
+// console.log(user1,user2);
+const user3:Extract<Status,"pending" | "success" >='pending'
+const user4:Extract<Status,"pending" | "success" >='success'
+// console.log(user3,user4);
+// ----------------------------------------------
+// 5-Exclude & Extract
+type Role="admin" | "editor" | "viewer";
+const user5:Record<Role,string[]>={
+    admin:['Shamshod'],
+    editor:['Saloh'],
+    viewer:['Hasan'],
+    // mentor:['Mashrab']
+}
+// ----------------------------------------------
+// 6-NonNullable
+// console.log(user5);
+type nullName=string|undefined|null
+const user6:NonNullable<nullName>='Ahmad'
+// const nulUser:NonNullable<nullName>=null
+// console.log(user6);
+// ----------------------------------------------
+// 7-ReturnType & Parameters
+const calculate=(a:number,b:number)=>{
+    return a+b
+}
+type typeCalculate=ReturnType<typeof calculate>
+type paramsCalculate=Parameters<typeof calculate>
+
+const result:typeCalculate=7
+const result2:paramsCalculate=[3,5]
+// console.log(result2);
+// console.log(result);
+
+
