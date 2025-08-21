@@ -7,4 +7,5 @@ async function bootstrap() {
     console.log('Server is runing', 3000),
   );
 }
+
 bootstrap();
