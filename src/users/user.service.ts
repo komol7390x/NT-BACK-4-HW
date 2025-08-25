@@ -9,6 +9,7 @@ import { getSuccessRes } from 'src/utils/getSuccess';
 @Injectable()
 export class UserService {
   constructor(@InjectModel(UserModel) private readonly userModel:typeof UserModel  ){}
+  
   create = async (CrateUsersDto: CrateUsersDto):Promise<IResponse> => {
     const existEmail = this.userModel.findOne({where:{email:CrateUsersDto.email}})
     if(existEmail as any){

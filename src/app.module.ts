@@ -5,14 +5,14 @@ import {
   RequestMethod,
 } from '@nestjs/common';
 
-import { UserModule } from './users/user.module';
+import { UserModules } from './users/user.module';
 import { UserMiddleware } from './middleware/user.middleware';
 import { ConfigModule } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
 
 @Module({
   imports: [
-    UserModule,
+    UserModules,
     ConfigModule.forRoot({
       envFilePath:'.env',
       isGlobal:true
@@ -31,6 +31,8 @@ import { SequelizeModule } from '@nestjs/sequelize';
     })
   ],
 })
+
+
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
