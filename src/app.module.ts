@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { AdminsModule } from './admins/admins.module';
 import { AdminModel } from './admins/models/admin.model';
+import { SallerModule } from './saller/saller.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { AdminModel } from './admins/models/admin.model';
       models: [AdminModel],
     }),
     AdminsModule,
+    SallerModule,
   ],
 })
 export class AppModule {}
