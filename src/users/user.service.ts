@@ -1,67 +1,60 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ConflictException, Injectable, NotFoundException } from '@nestjs/common';
 import { CrateUsersDto } from './dto/create-user.sto';
 import { UpdateUsersDto } from './dto/update-users.dto';
-import { IUser } from './entities/users.entity';
-import { v4 } from 'uuid';
+import { UserModel } from './models/users.entity';
+import { InjectModel } from '@nestjs/sequelize';
+import { IResponse } from 'src/interface/success-res';
+import { getSuccessRes } from 'src/utils/getSuccess';
 
 @Injectable()
 export class UserService {
-  private users: IUser[] = [];
-
-  create = async (CrateUsersDto: CrateUsersDto) => {
-    const id = v4().toUpperCase().replace(/-/g, '');
-    const newUser = { id, ...CrateUsersDto };
-    this.users.push(newUser);
-    return {
-      message: 'success',
-      statusCode: 201,
-      data: newUser,
-    };
+  constructor(@InjectModel(UserModel) private readonly userModel:typeof UserModel  ){}
+  create = async (CrateUsersDto: CrateUsersDto):Promise<IResponse> => {
+    const existEmail = this.userModel.findOne({where:{email:CrateUsersDto.email}})
+    if(existEmail as any){
+      throw new ConflictException('already added email')
+    }
+    const result=this.userModel.create(CrateUsersDto)
+    return getSuccessRes(result)
   };
 
   getAll = async () => {
-    return {
-      message: 'success',
-      statusCode: 200,
-      data: this.users,
-    };
+    const result=this.userModel.findAll()
+    return getSuccessRes(result)
   };
 
   getById = async (id: string) => {
-    const user = this.users.find((item) => item.id == id);
-    if (!user) {
-      throw new NotFoundException();
+    const user=this.userModel.findByPk(id)
+    if(!user){
+      throw new NotFoundException()
     }
-    return {
-      message: 'success',
-      statusCode: 200,
-      data: user,
-    };
+    return getSuccessRes(user)
   };
 
   update = async (id: string, UpdateUsersDto: UpdateUsersDto) => {
-    const index = this.users.findIndex((item) => item.id == id);
-    if (index == -1) {
-      throw new NotFoundException();
+   if (UpdateUsersDto.email) {
+      const existsEmail = await this.userModel.findOne({
+        where: { email: UpdateUsersDto.email },
+      });
+      if (existsEmail && existsEmail?.id != id) {
+        throw new ConflictException('Email already exists');
+      }
     }
-    this.users[index] = { id, ...UpdateUsersDto };
-    return {
-      message: 'success',
-      statusCode: 200,
-      data: this.users[index],
-    };
+    const author = await this.userModel.update(UpdateUsersDto, {
+      where: { id },
+      returning: true,
+    });
+    if (author[0] === 0) {
+      throw new NotFoundException('Author not found');
+    }
+    return getSuccessRes(author[1][0]);
   };
 
   remove = async (id: string) => {
-    const index = this.users.findIndex((item) => item.id == id);
-    if (index == -1) {
-      throw new NotFoundException();
+     const author = await this.userModel.destroy({ where: { id } });
+    if (!author) {
+      throw new NotFoundException('Author not found');
     }
-    this.users.splice(index, 1);
-    return {
-      message: 'success',
-      statusCode: 200,
-      data: {},
-    };
+    return getSuccessRes({});
   };
 }

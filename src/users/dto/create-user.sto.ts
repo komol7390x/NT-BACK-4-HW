@@ -3,9 +3,9 @@ import { IsString, IsNumber } from 'class-validator';
 export class CrateUsersDto {
   @ApiProperty({ example: 'Joh Wick', description: 'User name' })
   @IsString()
-  fullName: string;
+  full_name: string;
 
-  @ApiProperty({ example: 27, description: 'user age' })
-  @IsNumber()
-  age: number;
+  @ApiProperty({ example: 'wwww.example@gmail.com', description: 'wwww.example@gmail.com' })
+  @IsString()
+  email: string;
 }
