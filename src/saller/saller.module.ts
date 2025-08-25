@@ -5,8 +5,9 @@ import { SequelizeModule } from '@nestjs/sequelize';
 import { SallerModel } from './model/saller.model';
 
 @Module({
-  imports:[SequelizeModule.forFeature([SallerModel])],
+  imports: [SequelizeModule.forFeature([SallerModel])],
   controllers: [SallerController],
   providers: [SallerService],
+  exports: [SallerService],
 })
 export class SallerModule {}

@@ -56,7 +56,7 @@ export class AdminsService {
       returning: true,
     });
     if (result[0] === 0) {
-      throw new NotFoundException('Author not found');
+      throw new NotFoundException('Admin not found');
     }
     return getRessponse(result[1][0]);
   }
@@ -64,7 +64,7 @@ export class AdminsService {
   async remove(id: number) {
     const result = await this.adminModel.destroy({ where: { id } });
     if (!result) {
-      throw new NotFoundException('Author not found');
+      throw new NotFoundException('Admin not found');
     }
     return getRessponse({});
   }

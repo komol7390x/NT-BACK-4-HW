@@ -1,0 +1,14 @@
+{
+	"info": {
+		"_postman_id": "27ff3481-c2ce-40c0-bc6d-34f8ff181f85",
+		"name": "Market",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "46127988"
+	},
+	"item": [
+		{
+			"name": "admins",
+			"item": []
+		}
+	]
+}

@@ -1,4 +1,5 @@
-import { Column, DataType, Model, Table } from 'sequelize-typescript';
+import { HasMany, Column, DataType, Model, Table } from 'sequelize-typescript';
+import { ProductModel } from 'src/product/model/product.model';
 
 interface ICategory {
   id?: number;
@@ -20,4 +21,10 @@ export class CategoryModel extends Model<ICategory> {
     allowNull: false,
   })
   image_url: string;
+
+  @HasMany(() => ProductModel, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  product: ProductModel[];
 }

@@ -28,12 +28,14 @@ export class CategoryService {
   }
 
   async findAll() {
-    const result = await this.categoryModel.findAll();
+    const result = await this.categoryModel.findAll({ include: { all: true } });
     return getRessponse(result);
   }
 
   async findOne(id: number) {
-    const admin = await this.categoryModel.findByPk(id);
+    const admin = await this.categoryModel.findByPk(id, {
+      include: { all: true },
+    });
     if (!admin) {
       throw new NotFoundException();
     }
@@ -59,7 +61,7 @@ export class CategoryService {
       returning: true,
     });
     if (result[0] === 0) {
-      throw new NotFoundException('Author not found');
+      throw new NotFoundException('Category not found');
     }
     return getRessponse(result[1][0]);
   }
@@ -67,7 +69,7 @@ export class CategoryService {
   async remove(id: number) {
     const result = await this.categoryModel.destroy({ where: { id } });
     if (!result) {
-      throw new NotFoundException('Author not found');
+      throw new NotFoundException('Category not found');
     }
     return getRessponse({});
   }

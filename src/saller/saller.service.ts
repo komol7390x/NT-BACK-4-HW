@@ -56,7 +56,7 @@ export class SallerService {
       returning: true,
     });
     if (result[0] === 0) {
-      throw new NotFoundException('Author not found');
+      throw new NotFoundException('Saller not found');
     }
     return getRessponse(result[1][0]);
   }
@@ -64,7 +64,7 @@ export class SallerService {
   async remove(id: number) {
     const result = await this.sallerModel.destroy({ where: { id } });
     if (!result) {
-      throw new NotFoundException('Author not found');
+      throw new NotFoundException('Saller not found');
     }
     return getRessponse({});
   }
