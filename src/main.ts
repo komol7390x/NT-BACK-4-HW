@@ -17,5 +17,4 @@ const bootStrap = async () => {
   const PORT = 3001;
   await server.listen(PORT, () => console.log('Server is running ', PORT));
 };
-
 bootStrap();

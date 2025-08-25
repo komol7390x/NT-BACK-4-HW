@@ -9,6 +9,7 @@ import { UserModules } from './users/user.module';
 import { UserMiddleware } from './middleware/user.middleware';
 import { ConfigModule } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
+import { UserModel } from './users/models/users.entity';
 
 @Module({
   imports: [
@@ -27,11 +28,10 @@ import { SequelizeModule } from '@nestjs/sequelize';
       logging: false,
       synchronize: true,
       autoLoadModels: true,
-      models:[]
+      models:[UserModel]
     })
   ],
 })
-
 
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

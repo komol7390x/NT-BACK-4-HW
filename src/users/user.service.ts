@@ -11,21 +11,21 @@ export class UserService {
   constructor(@InjectModel(UserModel) private readonly userModel:typeof UserModel  ){}
   
   create = async (CrateUsersDto: CrateUsersDto):Promise<IResponse> => {
-    const existEmail = this.userModel.findOne({where:{email:CrateUsersDto.email}})
-    if(existEmail as any){
+    const existEmail =await this.userModel.findOne({where:{email:CrateUsersDto.email}})
+    if(existEmail){
       throw new ConflictException('already added email')
-    }
-    const result=this.userModel.create(CrateUsersDto)
-    return getSuccessRes(result)
+    }    
+    const result=await this.userModel.create(CrateUsersDto)  
+    return getSuccessRes(result,201)
   };
 
-  getAll = async () => {
-    const result=this.userModel.findAll()
+  getAll = async ():Promise<IResponse> => {
+    const result=await this.userModel.findAll()
     return getSuccessRes(result)
   };
 
   getById = async (id: string) => {
-    const user=this.userModel.findByPk(id)
+    const user=await this.userModel.findByPk(id)
     if(!user){
       throw new NotFoundException()
     }
