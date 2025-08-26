@@ -22,5 +22,5 @@ export class CreateAdminDto {
 
   @IsNumber()
   @IsOptional()
-  balance: number;
+  balance?: number;
 }

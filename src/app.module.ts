@@ -3,6 +3,7 @@ import { AdminModule } from './admin/admin.module';
 import { ConfigModule } from '@nestjs/config';
 import { SequelizeModule } from '@nestjs/sequelize';
 import { ConnectDatabase } from './database/connect-database';
+import { ProductModule } from './product/product.module';
 
 @Module({
   providers: [ConnectDatabase],
@@ -25,6 +26,7 @@ import { ConnectDatabase } from './database/connect-database';
       synchronize: true,
       models: [],
     }),
+    ProductModule,
   ],
 })
 export class AppModule {}

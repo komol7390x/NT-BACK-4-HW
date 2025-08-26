@@ -31,6 +31,7 @@ export class AdminModel extends Model<IAdmin> {
 
   @Column({
     type: DataType.INTEGER,
+    allowNull: true,
     defaultValue: 0,
   })
   balance: number;
