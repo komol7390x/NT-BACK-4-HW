@@ -6,8 +6,10 @@ import { AdminModel } from './admins/models/admin.model';
 import { SallerModule } from './saller/saller.module';
 import { CategoryModule } from './category/category.module';
 import { ProductModule } from './product/product.module';
+import { DatabaseCheckService } from './database/check-database';
 
 @Module({
+  providers:[DatabaseCheckService],
   imports: [
     ConfigModule.forRoot({
       envFilePath: '.env',
