@@ -34,13 +34,13 @@ export class ProductService {
 
   // =========================== FIND ALL =========================== \\
   async findAll(): Promise<IResponse> {
-    const result = await this.Product.findAll();
+    const result = await this.Product.findAll({ include: { all: true } });
     return successRes(result, 201);
   }
 
   // =========================== FIND ONE =========================== \\
   async findOne(id: number): Promise<IResponse> {
-    const product = await this.Product.findByPk(id);
+    const product = await this.Product.findByPk(id, { include: { all: true } });
     if (!product) {
       throw new NotFoundException();
     }

@@ -1,4 +1,5 @@
 import {
+  BelongsTo,
   Column,
   DataType,
   ForeignKey,
@@ -42,4 +43,7 @@ export class ProductModel extends Model<IProduct> {
     allowNull: false,
   })
   admin_id: number;
+
+  @BelongsTo(() => AdminModel)
+  admin: AdminModel[];
 }
