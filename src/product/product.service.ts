@@ -9,19 +9,24 @@ import { InjectModel } from '@nestjs/sequelize';
 import { ProductModel } from './model/product.model';
 import { IResponse } from 'src/interface/success-interface';
 import { successRes } from 'src/utils/success-res';
-
+import { AdminModel } from 'src/admin/model/admin.model';
 @Injectable()
 export class ProductService {
   constructor(
     @InjectModel(ProductModel) private readonly Product: typeof ProductModel,
+    @InjectModel(AdminModel) private readonly Admin: typeof AdminModel,
   ) {}
 
   // =========================== CREATE =========================== \\
   async create(createProductDto: CreateProductDto): Promise<IResponse> {
-    const { name } = createProductDto;
+    const { name, admin_id } = createProductDto;
     const exists = await this.Product.findOne({ where: { name } });
     if (exists) {
       throw new ConflictException();
+    }
+    const existAdmin = await this.Admin.findOne({ where: { id: admin_id } });
+    if (!existAdmin) {
+      throw new NotFoundException();
     }
     const result = await this.Product.create(createProductDto);
     return successRes(result, 201);
@@ -44,12 +49,16 @@ export class ProductService {
 
   // =========================== UPDATE =========================== \\
   async update(id: number, updateProductDto: UpdateProductDto) {
-    const { name } = updateProductDto;
+    const { name, admin_id } = updateProductDto;
     if (name) {
       const exists = await this.Product.findOne({ where: { name } });
       if (exists?.dataValues?.id != id && exists) {
         throw new ConflictException();
       }
+    }
+    const existAdmin = await this.Admin.findOne({ where: { id: admin_id } });
+    if (!existAdmin) {
+      throw new NotFoundException('not found Admin id');
     }
     const result = await this.Product.update(updateProductDto, {
       where: { id },

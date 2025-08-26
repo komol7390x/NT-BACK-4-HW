@@ -1,4 +1,5 @@
-import { Column, DataType, Model, Table } from 'sequelize-typescript';
+import { Column, DataType, HasMany, Model, Table } from 'sequelize-typescript';
+import { ProductModel } from 'src/product/model/product.model';
 
 interface IAdmin {
   id?: number;
@@ -35,6 +36,12 @@ export class AdminModel extends Model<IAdmin> {
     defaultValue: 0,
   })
   balance: number;
+
+  @HasMany(() => ProductModel, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  products: ProductModel[];
 }
 
 export class Admin {}

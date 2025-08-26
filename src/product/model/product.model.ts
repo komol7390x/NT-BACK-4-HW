@@ -1,4 +1,11 @@
-import { Column, DataType, Model, Table } from 'sequelize-typescript';
+import {
+  Column,
+  DataType,
+  ForeignKey,
+  Model,
+  Table,
+} from 'sequelize-typescript';
+import { AdminModel } from 'src/admin/model/admin.model';
 
 interface IProduct {
   id?: number;
@@ -20,18 +27,19 @@ export class ProductModel extends Model<IProduct> {
     type: DataType.INTEGER,
     allowNull: false,
   })
-  price: string;
+  price: number;
 
   @Column({
     type: DataType.INTEGER,
     allowNull: true,
     defaultValue: 0,
   })
-  stock_quantity: string;
+  stock_quantity: number;
 
+  @ForeignKey(() => AdminModel)
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
   })
-  admin_id: string;
+  admin_id: number;
 }

@@ -29,13 +29,13 @@ export class AdminService {
 
   // =========================== FIND ALL =========================== \\
   async findAll(): Promise<IResponse> {
-    const result = await this.Admin.findAll();
+    const result = await this.Admin.findAll({ include: { all: true } });
     return successRes(result, 201);
   }
 
   // =========================== FIND ONE =========================== \\
   async findOne(id: number): Promise<IResponse> {
-    const admin = await this.Admin.findByPk(id);
+    const admin = await this.Admin.findByPk(id, { include: { all: true } });
     if (!admin) {
       throw new NotFoundException();
     }
