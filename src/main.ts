@@ -1,21 +1,19 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { HttpStatus, ValidationPipe } from '@nestjs/common';
 
-const bootStrap = async () => {
-  const server = await NestFactory.create(AppModule);
-  const config = new DocumentBuilder()
-    .setTitle('User create')
-    .setDescription('Users CRUD')
-    .setVersion('1.0')
-    .addTag('user')
-    .build();
-
-  const documentBuilder = () => SwaggerModule.createDocument(server, config);
-  SwaggerModule.setup('api', server, documentBuilder);
-
-  const PORT = 3001;
-  await server.listen(PORT, () => console.log('Server is running ', PORT));
-};
-
-bootStrap();
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+  app.setGlobalPrefix('api');
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
+      errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
+    }),
+  );
+  const PORT = Number(process.env.API_PORT) || 3000;
+  await app.listen(PORT, () => console.log('Server is running: ', PORT));
+}
+bootstrap();
