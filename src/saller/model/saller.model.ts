@@ -5,6 +5,7 @@ interface ISaller {
   full_name: string;
   email: string;
   age?: number;
+  balance?:number
 }
 
 @Table({ tableName: 'sallers' })
@@ -26,4 +27,10 @@ export class SallerModel extends Model<ISaller> {
     type: DataType.INTEGER,
   })
   age: number;
+
+  @Column({
+    type: DataType.INTEGER,
+    defaultValue:0
+  })
+  balance: number;
 }

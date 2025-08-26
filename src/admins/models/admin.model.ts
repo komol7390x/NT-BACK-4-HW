@@ -5,6 +5,7 @@ interface IAdmin {
   full_name: string;
   email: string;
   age?: number;
+  balance?:number
 }
 
 @Table({ tableName: 'admins' })
@@ -27,4 +28,10 @@ export class AdminModel extends Model<IAdmin> {
     type: DataType.INTEGER,
   })
   age: number;
+
+  @Column({
+    type: DataType.INTEGER,
+    defaultValue:0
+  })
+  balance: number;
 }
