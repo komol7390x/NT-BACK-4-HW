@@ -15,33 +15,33 @@ export class AdminModel extends Model<IAdmin> {
     type: DataType.STRING,
     allowNull: false,
   })
-  full_name: string;
+  declare full_name: string;
 
   @Column({
     type: DataType.STRING,
     allowNull: false,
     unique: true,
   })
-  email: string;
+  declare email: string;
 
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
   })
-  age: number;
+  declare age: number;
 
   @Column({
     type: DataType.INTEGER,
     allowNull: true,
     defaultValue: 0,
   })
-  balance: number;
+  declare balance: number;
 
   @HasMany(() => ProductModel, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
-  products: ProductModel[];
+  declare products: ProductModel[];
 }
 
 export class Admin {}

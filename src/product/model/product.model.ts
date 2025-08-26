@@ -15,6 +15,7 @@ interface IProduct {
   stock_quantity: number;
   admin_id: number;
 }
+
 @Table({ tableName: 'products' })
 export class ProductModel extends Model<IProduct> {
   @Column({
@@ -22,28 +23,28 @@ export class ProductModel extends Model<IProduct> {
     allowNull: false,
     unique: true,
   })
-  name: string;
+  declare name: string;
 
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
   })
-  price: number;
+  declare price: number;
 
   @Column({
     type: DataType.INTEGER,
     allowNull: true,
     defaultValue: 0,
   })
-  stock_quantity: number;
+  declare stock_quantity: number;
 
   @ForeignKey(() => AdminModel)
   @Column({
     type: DataType.INTEGER,
     allowNull: false,
   })
-  admin_id: number;
+  declare admin_id: number;
 
   @BelongsTo(() => AdminModel)
-  admin: AdminModel[];
+  declare admin: AdminModel;
 }
