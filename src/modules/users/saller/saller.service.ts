@@ -31,12 +31,12 @@ export class SallerService {
 
   // =========================== FIND ALL =========================== \\
   async findAll(): Promise<IResponse> {
-    const result = await this.AdminModel.find();
+    const result = await this.AdminModel.find().populate('products');
     return getSuccess(result);
   }
   // =========================== FIND ONE =========================== \\
   async findOne(id: string): Promise<IResponse> {
-    const result = await this.AdminModel.findById(id);
+    const result = await this.AdminModel.findById(id).populate('products');
     if (!result) {
       throw new NotFoundException(`not found this ${id}`);
     }

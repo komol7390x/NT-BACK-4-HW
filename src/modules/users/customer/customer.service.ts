@@ -31,12 +31,14 @@ export class CustomerService {
 
   // =========================== FIND ALL =========================== \\
   async findAll(): Promise<IResponse> {
-    const result = await this.customerModel.find().populate('orders');
+    const result = await this.customerModel.find().populate('orders_product');
     return getSuccess(result);
   }
   // =========================== FIND ONE =========================== \\
   async findOne(id: string): Promise<IResponse> {
-    const result = await this.customerModel.findById(id).populate('orders');
+    const result = await this.customerModel
+      .findById(id)
+      .populate('orders_product');
     if (!result) {
       throw new NotFoundException(`not found this ${id}`);
     }
@@ -58,9 +60,7 @@ export class CustomerService {
     const result = await this.customerModel.findByIdAndUpdate(
       id,
       updateCustomerDto,
-      {
-        new: true,
-      },
+      { new: true },
     );
     if (!result) {
       throw new NotFoundException(`not found this ${id}`);

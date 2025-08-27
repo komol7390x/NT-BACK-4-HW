@@ -23,7 +23,7 @@ export class Customer extends Document {
 }
 const CustomerSchema = SchemaFactory.createForClass(Customer);
 
-CustomerSchema.virtual('orders', {
+CustomerSchema.virtual('orders_product', {
   ref: 'Order',
   localField: '_id',
   foreignField: 'customer_id',
