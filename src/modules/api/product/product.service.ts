@@ -10,11 +10,13 @@ import { Product } from './schema/product.schema';
 import { Model } from 'mongoose';
 import { getSuccess } from 'src/utils/success-res';
 import { IResponse } from 'src/interface/success-res-interface';
+import { SallerService } from 'src/modules/users/saller/saller.service';
 
 @Injectable()
 export class ProductService {
   constructor(
     @InjectModel(Product.name) private readonly CategoryModel: Model<Product>,
+    // private readonly Saller:SallerService
   ) {}
 
   // =========================== CREATE =========================== \\

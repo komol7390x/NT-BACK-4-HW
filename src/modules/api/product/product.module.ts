@@ -3,15 +3,13 @@ import { ProductService } from './product.service';
 import { ProductController } from './product.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Product, ProductSchema } from './schema/product.schema';
-import { Saller, SallerSchema } from 'src/modules/users/saller/schema/saller.schema';
-import { Category, CategorySchema } from '../category/schema/category.schema';
+import { SallerModule } from 'src/modules/users/saller/saller.module';
+import { CategoryModule } from '../category/category.module';
 
 @Module({
   imports:[MongooseModule.forFeature([
     {name:Product.name,schema:ProductSchema},
-    {name:Saller.name,schema:SallerSchema},
-    {name:Category.name,schema:CategorySchema}
-  ])],
+  ]),    SallerModule,CategoryModule],
   controllers: [ProductController],
   providers: [ProductService],
   exports:[ProductService]

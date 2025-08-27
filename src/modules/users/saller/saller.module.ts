@@ -10,5 +10,6 @@ import { Saller, SallerSchema } from './schema/saller.schema';
   ],
   controllers: [SallerController],
   providers: [SallerService],
+  exports:[SallerService]
 })
 export class SallerModule {}
