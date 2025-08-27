@@ -7,11 +7,13 @@ import { SallerModule } from 'src/modules/users/saller/saller.module';
 import { CategoryModule } from '../category/category.module';
 
 @Module({
-  imports:[MongooseModule.forFeature([
-    {name:Product.name,schema:ProductSchema},
-  ]),    SallerModule,CategoryModule],
+  imports: [
+    MongooseModule.forFeature([{ name: Product.name, schema: ProductSchema }]),
+    SallerModule,
+    CategoryModule,
+  ],
   controllers: [ProductController],
   providers: [ProductService],
-  exports:[ProductService]
+  exports: [ProductService],
 })
 export class ProductModule {}
