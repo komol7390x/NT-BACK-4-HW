@@ -1,7 +1,13 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-@Schema({ timestamps: true, versionKey: false })
+@Schema({
+  timestamps: true,
+  versionKey: false,
+  virtuals: true,
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true },
+})
 export class Customer extends Document {
   @Prop({ required: true, type: String })
   full_name: string;
@@ -15,4 +21,12 @@ export class Customer extends Document {
   @Prop({ type: Number, required: false, default: 0 })
   balance: number;
 }
-export const CustomerSchema = SchemaFactory.createForClass(Customer);
+const CustomerSchema = SchemaFactory.createForClass(Customer);
+
+CustomerSchema.virtual('orders', {
+  ref: 'Order',
+  localField: '_id',
+  foreignField: 'customer_id',
+});
+
+export { CustomerSchema };

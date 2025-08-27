@@ -31,12 +31,12 @@ export class CustomerService {
 
   // =========================== FIND ALL =========================== \\
   async findAll(): Promise<IResponse> {
-    const result = await this.customerModel.find();
+    const result = await this.customerModel.find().populate('orders');
     return getSuccess(result);
   }
   // =========================== FIND ONE =========================== \\
   async findOne(id: string): Promise<IResponse> {
-    const result = await this.customerModel.findById(id);
+    const result = await this.customerModel.findById(id).populate('orders');
     if (!result) {
       throw new NotFoundException(`not found this ${id}`);
     }

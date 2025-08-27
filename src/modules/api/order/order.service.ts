@@ -46,8 +46,7 @@ export class OrderService {
     if (checkQuantity < quantity) {
       throw new ConflictException('not enough product');
     }
-
-    const price = product.price;
+    const price = product[0].price;
     const total_price = price * quantity;
     const result = await this.orderModel.create({
       price,
@@ -68,7 +67,11 @@ export class OrderService {
   }
   // =========================== FIND ONE =========================== \\
   async findOne(id: string): Promise<IResponse> {
-    const result = await this.orderModel.findById(id);
+    const result = await this.orderModel
+      .findById(id)
+      .populate('customer_id')
+      .populate('product_id')
+      .exec();;
     if (!result) {
       throw new NotFoundException();
     }
