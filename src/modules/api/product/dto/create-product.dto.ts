@@ -24,7 +24,7 @@ export class CreateProductDto {
 
   @IsMongoId()
   @IsNotEmpty()
-  seller_id: string;
+  saller_id: string;
 
   @IsMongoId()
   @IsNotEmpty()

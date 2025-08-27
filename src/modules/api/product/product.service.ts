@@ -11,16 +11,28 @@ import { Model } from 'mongoose';
 import { getSuccess } from 'src/utils/success-res';
 import { IResponse } from 'src/interface/success-res-interface';
 import { SallerService } from 'src/modules/users/saller/saller.service';
+import { CategoryService } from '../category/category.service';
 
 @Injectable()
 export class ProductService {
   constructor(
     @InjectModel(Product.name) private readonly productModel: Model<Product>,
-     private readonly sallerService: SallerService,
+    private readonly sallerService: SallerService,
+    private readonly categoryService: CategoryService,
   ) {}
 
   // =========================== CREATE =========================== \\
   async create(createProductDto: CreateProductDto): Promise<IResponse> {
+    const { saller_id, category_id } = createProductDto;
+    const existSaller = await this.sallerService.findOne(saller_id);
+    if (!existSaller) {
+      throw new NotFoundException(`not found this ${saller_id} on Saller`);
+    }
+
+    const existCategory = await this.categoryService.findOne(category_id);
+    if (!existCategory) {
+      throw new NotFoundException(`not found this ${category_id} on Category`);
+    }
     const result = await this.productModel.create(createProductDto);
     return getSuccess(result, 201);
   }
@@ -44,7 +56,19 @@ export class ProductService {
     id: string,
     updateProductDto: UpdateProductDto,
   ): Promise<IResponse> {
-    const { name } = updateProductDto;
+    const { name, saller_id, category_id } = updateProductDto;
+    if (saller_id) {
+      const existSaller = await this.sallerService.findOne(saller_id);
+      if (!existSaller) {
+        throw new NotFoundException(`not found this ${saller_id} on Saller`);
+      }
+    }
+    if (category_id) {
+      const existCategory = await this.categoryService.findOne(category_id);
+      if (!existCategory) {
+        throw new NotFoundException(`not found this ${category_id} on Category`);
+      }
+    }
     if (name) {
       const exist = await this.productModel.findOne({ name });
       if (exist && exist.id != id) {
