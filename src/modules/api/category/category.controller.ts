@@ -10,6 +10,7 @@ import {
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
+import { IsObjectIdPipe } from '@nestjs/mongoose';
 
 @Controller('category')
 export class CategoryController {
@@ -26,20 +27,20 @@ export class CategoryController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id',IsObjectIdPipe) id: string) {
     return this.categoryService.findOne(id);
   }
 
   @Patch(':id')
   update(
-    @Param('id') id: string,
+    @Param('id',IsObjectIdPipe) id: string,
     @Body() updateCategoryDto: UpdateCategoryDto,
   ) {
     return this.categoryService.update(id, updateCategoryDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id',IsObjectIdPipe) id: string) {
     return this.categoryService.remove(id);
   }
 }
