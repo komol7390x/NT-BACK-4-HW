@@ -1,5 +1,5 @@
 {
-  "name": "NT-BACK-4-HW",
+  "name": "project-9",
   "version": "0.0.1",
   "description": "",
   "author": "",
@@ -29,9 +29,7 @@
     "@nestjs/swagger": "^11.2.0",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.2",
-    "mongoose": "^8.18.0",
-    "reflect-metadata": "^0.2.2",
-    "rxjs": "^7.8.1"
+    "mongoose": "^8.18.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3.2.0",

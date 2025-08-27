@@ -16,7 +16,7 @@ import { SallerService } from 'src/modules/users/saller/saller.service';
 export class ProductService {
   constructor(
     @InjectModel(Product.name) private readonly productModel: Model<Product>,
-    //  private readonly sallerService: SallerService, 
+    //  private readonly sallerService: SallerService,
   ) {}
 
   // =========================== CREATE =========================== \\
@@ -40,17 +40,24 @@ export class ProductService {
   }
 
   // =========================== UPDATE =========================== \\
-  async update(id: string, updateProductDto: UpdateProductDto): Promise<IResponse> {
+  async update(
+    id: string,
+    updateProductDto: UpdateProductDto,
+  ): Promise<IResponse> {
     const { name } = updateProductDto;
     if (name) {
       const exist = await this.productModel.findOne({ name });
       if (exist && exist.id != id) {
-      throw new ConflictException(`this ${name} already added`);
+        throw new ConflictException(`this ${name} already added`);
       }
     }
-    const result = await this.productModel.findByIdAndUpdate(id, updateProductDto, {
-      new: true,
-    });
+    const result = await this.productModel.findByIdAndUpdate(
+      id,
+      updateProductDto,
+      {
+        new: true,
+      },
+    );
     if (!result) {
       throw new NotFoundException();
     }
