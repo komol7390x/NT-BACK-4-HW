@@ -16,7 +16,7 @@ import { SallerService } from 'src/modules/users/saller/saller.service';
 export class ProductService {
   constructor(
     @InjectModel(Product.name) private readonly productModel: Model<Product>,
-    //  private readonly sallerService: SallerService,
+     private readonly sallerService: SallerService,
   ) {}
 
   // =========================== CREATE =========================== \\
