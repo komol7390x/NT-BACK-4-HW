@@ -27,19 +27,29 @@ export class ProductService {
 
     await this.sallerService.findOne(saller_id);
     await this.categoryService.findOne(category_id);
-   
+
     const result = await this.productModel.create(createProductDto);
     return getSuccess(result, 201);
   }
 
   // =========================== FIND ALL =========================== \\
   async findAll(): Promise<IResponse> {
-    const result = await this.productModel.find();
+    const result = await this.productModel
+      .find()
+      .find()
+      .populate('saller_id')
+      .populate('category_id')
+      .exec();;
     return getSuccess(result);
   }
   // =========================== FIND ONE =========================== \\
-  async findOne(id: string): Promise<IResponse | null> {
-    const result = await this.productModel.findById(id).exec();
+  async findOne(id: string): Promise<IResponse> {
+    const result = await this.productModel
+      .findById(id)
+      .find()
+      .populate('saller_id')
+      .populate('category_id')
+      .exec();;
     if (!result) {
       throw new NotFoundException(`not found this ${id}`);
     }

@@ -1,4 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import mongoose from 'mongoose';
 
 @Schema({ timestamps: true, versionKey: false })
 export class Product {
@@ -9,12 +10,12 @@ export class Product {
   stock_quantity: number;
 
   @Prop({ type: Number, required: true })
-  price:number;
+  price: number;
 
-  @Prop({ type: String, required: true })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Saller' })
   saller_id: string;
 
-  @Prop({ type: String, required: true })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Category' })
   category_id: string;
 
   @Prop({ type: Array, default: () => [] })
