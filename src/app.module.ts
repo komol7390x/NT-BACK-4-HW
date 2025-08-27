@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import {MongooseModule} from '@nestjs/mongoose'
 import { ConnectDatabase} from './database/database';
 import { AdminModule } from './admin/admin.module';
+import { SallerModule } from './saller/saller.module';
 
 @Module({
   providers:[ConnectDatabase],
@@ -11,6 +12,7 @@ import { AdminModule } from './admin/admin.module';
     envFilePath:'.env'
   }),
 MongooseModule.forRoot(String(process.env.MONGO_DB)),
-AdminModule],
+AdminModule,
+SallerModule],
 })
 export class AppModule {}
