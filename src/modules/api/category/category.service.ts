@@ -44,15 +44,15 @@ export class CategoryService {
   }
 
   // =========================== UPDATE =========================== \\
-  async update(id: string, updateAdminDto: UpdateCategoryDto): Promise<IResponse> {
-    const { name } = updateAdminDto;
+  async update(id: string, updateCategoryDto: UpdateCategoryDto): Promise<IResponse> {
+    const { name } = updateCategoryDto;
     if (name) {
       const exist = await this.CategoryModel.findOne({ name });
       if (exist && exist.id != id) {
       throw new ConflictException(`this ${name} already added`);
       }
     }
-    const result = await this.CategoryModel.findByIdAndUpdate(id, updateAdminDto, {
+    const result = await this.CategoryModel.findByIdAndUpdate(id, updateCategoryDto, {
       new: true,
     });
     if (!result) {
