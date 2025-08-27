@@ -1,8 +1,4 @@
-import {
-  ConflictException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -10,9 +6,9 @@ import { Order } from './schema/order.schema';
 import { Model } from 'mongoose';
 import { getSuccess } from 'src/utils/success-res';
 import { IResponse } from 'src/interface/success-res-interface';
-import { Product } from '../product/schema/product.schema';
 import { ProductService } from '../product/product.service';
 import { CustomerService } from 'src/modules/users/customer/customer.service';
+import { Product } from '../product/schema/product.schema';
 
 @Injectable()
 export class OrderService {
@@ -24,20 +20,21 @@ export class OrderService {
 
   // =========================== CREATE =========================== \\
   async create(createOrderDto: CreateOrderDto): Promise<IResponse> {
-    const { product_id, customer_id } = createOrderDto;
-    const existProduct = await this.productService.findOne(product_id);
-    if (!existProduct) {
-      throw new NotFoundException(
-        `not found this id=> ${product_id} on Product`,
-      );
+    
+    const { product_id, customer_id, qauntity } = createOrderDto;
+    
+    // const existCustomer = await this.customerService.findOne(customer_id);
+    // if (!existCustomer) {
+      //   throw new NotFoundException(`not found this id=> ${customer_id} on Customer`);
+      // }    
+      
+    const existProduct = await this.productService.findOne(product_id)
+    if (!existProduct || !existProduct.data) {
+      // throw new NotFoundException(`not found this id => ${product_id} on Product`);
     }
+    console.log(existProduct);
 
-    const existCustomer = await this.customerService.findOne(customer_id);
-    if (!existCustomer) {
-      throw new NotFoundException(
-        `not found this id=> ${customer_id} on Customer`,
-      );
-    }
+    return getSuccess({})
     const result = await this.orderModel.create(createOrderDto);
     return getSuccess(result, 201);
   }

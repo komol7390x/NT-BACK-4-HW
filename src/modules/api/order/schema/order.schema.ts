@@ -6,6 +6,9 @@ export class Order {
   @Prop({ type: Number, required: true })
   total_price: number;
 
+  @Prop({ type: Number, required: true })
+  quantity: number;
+
   @Prop({ type: Types.ObjectId, ref: 'Product', required: true })
   product_id: string;
 

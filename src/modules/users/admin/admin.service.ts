@@ -38,7 +38,7 @@ export class AdminService {
   async findOne(id: string): Promise<IResponse> {
     const result = await this.AdminModel.findById(id);
     if (!result) {
-      throw new NotFoundException();
+      throw new NotFoundException(`not found this ${id}`);
     }
     return getSuccess(result);
   }
@@ -56,7 +56,7 @@ export class AdminService {
       new: true,
     });
     if (!result) {
-      throw new NotFoundException();
+      throw new NotFoundException(`not found this ${id}`);
     }
     return getSuccess(result);
   }
@@ -64,7 +64,7 @@ export class AdminService {
   async remove(id: string): Promise<IResponse> {
     const result = await this.AdminModel.findByIdAndDelete(id);
     if (!result) {
-      throw new NotFoundException();
+      throw new NotFoundException(`not found this ${id}`);
     }
     return getSuccess({});
   }

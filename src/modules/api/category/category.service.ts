@@ -38,7 +38,7 @@ export class CategoryService {
   async findOne(id: string): Promise<IResponse> {
     const result = await this.CategoryModel.findById(id);
     if (!result) {
-      throw new NotFoundException();
+      throw new NotFoundException(`not found this ${id}`);
     }
     return getSuccess(result);
   }
@@ -63,7 +63,7 @@ export class CategoryService {
       },
     );
     if (!result) {
-      throw new NotFoundException();
+      throw new NotFoundException(`not found this ${id}`);
     }
     return getSuccess(result);
   }
@@ -71,7 +71,7 @@ export class CategoryService {
   async remove(id: string): Promise<IResponse> {
     const result = await this.CategoryModel.findByIdAndDelete(id);
     if (!result) {
-      throw new NotFoundException();
+      throw new NotFoundException(`not found this ${id}`);
     }
     return getSuccess({});
   }

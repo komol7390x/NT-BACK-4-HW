@@ -24,15 +24,10 @@ export class ProductService {
   // =========================== CREATE =========================== \\
   async create(createProductDto: CreateProductDto): Promise<IResponse> {
     const { saller_id, category_id } = createProductDto;
-    const existSaller = await this.sallerService.findOne(saller_id);
-    if (!existSaller) {
-      throw new NotFoundException(`not found this ${saller_id} on Saller`);
-    }
 
-    const existCategory = await this.categoryService.findOne(category_id);
-    if (!existCategory) {
-      throw new NotFoundException(`not found this ${category_id} on Category`);
-    }
+    await this.sallerService.findOne(saller_id);
+    await this.categoryService.findOne(category_id);
+   
     const result = await this.productModel.create(createProductDto);
     return getSuccess(result, 201);
   }
@@ -43,10 +38,10 @@ export class ProductService {
     return getSuccess(result);
   }
   // =========================== FIND ONE =========================== \\
-  async findOne(id: string): Promise<IResponse> {
-    const result = await this.productModel.findById(id);
+  async findOne(id: string): Promise<IResponse | null> {
+    const result = await this.productModel.findById(id).exec();
     if (!result) {
-      throw new NotFoundException();
+      throw new NotFoundException(`not found this ${id}`);
     }
     return getSuccess(result);
   }
@@ -66,7 +61,9 @@ export class ProductService {
     if (category_id) {
       const existCategory = await this.categoryService.findOne(category_id);
       if (!existCategory) {
-        throw new NotFoundException(`not found this ${category_id} on Category`);
+        throw new NotFoundException(
+          `not found this ${category_id} on Category`,
+        );
       }
     }
     if (name) {
@@ -83,7 +80,7 @@ export class ProductService {
       },
     );
     if (!result) {
-      throw new NotFoundException();
+      throw new NotFoundException(`not found this ${id}`);
     }
     return getSuccess(result);
   }
@@ -91,7 +88,7 @@ export class ProductService {
   async remove(id: string): Promise<IResponse> {
     const result = await this.productModel.findByIdAndDelete(id);
     if (!result) {
-      throw new NotFoundException();
+      throw new NotFoundException(`not found this ${id}`);
     }
     return getSuccess({});
   }
