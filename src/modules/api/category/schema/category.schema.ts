@@ -1,6 +1,12 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 
-@Schema({ timestamps: true, versionKey: false })
+@Schema({
+  timestamps: true,
+  versionKey: false,
+  virtuals: true,
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true },
+})
 export class Category {
   @Prop({ type: String, required: true, unique: true })
   name: string;
@@ -9,4 +15,12 @@ export class Category {
   image_url?: string;
 }
 
-export const CategorySchema = SchemaFactory.createForClass(Category);
+const CategorySchema = SchemaFactory.createForClass(Category);
+
+CategorySchema.virtual('products', {
+  ref: 'Product',
+  localField: '_id',
+  foreignField: 'category_id',
+});
+
+export { CategorySchema };

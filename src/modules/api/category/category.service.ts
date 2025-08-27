@@ -31,7 +31,7 @@ export class CategoryService {
 
   // =========================== FIND ALL =========================== \\
   async findAll(): Promise<IResponse> {
-    const result = await this.CategoryModel.find();
+    const result = await this.CategoryModel.find().populate('products');
     return getSuccess(result);
   }
   // =========================== FIND ONE =========================== \\
