@@ -39,7 +39,7 @@ export class ProductService {
       .find()
       .populate('saller_id')
       .populate('category_id')
-      .exec();;
+      .exec();
     return getSuccess(result);
   }
   // =========================== FIND ONE =========================== \\
@@ -49,7 +49,7 @@ export class ProductService {
       .find()
       .populate('saller_id')
       .populate('category_id')
-      .exec();;
+      .exec();
     if (!result) {
       throw new NotFoundException(`not found this ${id}`);
     }

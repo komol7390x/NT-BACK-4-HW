@@ -44,7 +44,10 @@ export class CustomerService {
   }
 
   // =========================== UPDATE =========================== \\
-  async update(id: string, updateCustomerDto: UpdateCustomerDto): Promise<IResponse> {
+  async update(
+    id: string,
+    updateCustomerDto: UpdateCustomerDto,
+  ): Promise<IResponse> {
     const { email } = updateCustomerDto;
     if (email) {
       const exist = await this.customerModel.findOne({ email });
@@ -52,9 +55,13 @@ export class CustomerService {
         throw new ConflictException('Email already added');
       }
     }
-    const result = await this.customerModel.findByIdAndUpdate(id, updateCustomerDto, {
-      new: true,
-    });
+    const result = await this.customerModel.findByIdAndUpdate(
+      id,
+      updateCustomerDto,
+      {
+        new: true,
+      },
+    );
     if (!result) {
       throw new NotFoundException(`not found this ${id}`);
     }

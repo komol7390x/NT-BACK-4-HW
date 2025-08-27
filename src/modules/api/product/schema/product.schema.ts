@@ -12,10 +12,14 @@ export class Product {
   @Prop({ type: Number, required: true })
   price: number;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Saller' })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Saller', required: true })
   saller_id: string;
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'Category' })
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Category',
+    required: true,
+  })
   category_id: string;
 
   @Prop({ type: Array, default: () => [] })

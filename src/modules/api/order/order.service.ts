@@ -59,7 +59,11 @@ export class OrderService {
 
   // =========================== FIND ALL =========================== \\
   async findAll(): Promise<IResponse> {
-    const result = await this.orderModel.find();
+    const result = await this.orderModel
+      .find()
+      .populate('customer_id')
+      .populate('product_id')
+      .exec();
     return getSuccess(result);
   }
   // =========================== FIND ONE =========================== \\
