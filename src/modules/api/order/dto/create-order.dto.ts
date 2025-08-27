@@ -10,7 +10,7 @@ export class CreateOrderDto {
   @Type(() => Number)
   @IsNumber()
   @IsNotEmpty()
-  qauntity: number;
+  quantity: number;
 
   @ApiProperty({
     example: '64c9a8f5d4f2a6b1c8f7a123',

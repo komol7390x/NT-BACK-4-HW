@@ -8,8 +8,8 @@ export class Product {
   @Prop({ type: Number, default: 0 })
   stock_quantity: number;
 
-  @Prop({ type: String, required: true })
-  price: string;
+  @Prop({ type: Number, required: true })
+  price:number;
 
   @Prop({ type: String, required: true })
   saller_id: string;

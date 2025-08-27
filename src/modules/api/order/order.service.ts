@@ -20,22 +20,29 @@ export class OrderService {
 
   // =========================== CREATE =========================== \\
   async create(createOrderDto: CreateOrderDto): Promise<IResponse> {
-    
-    const { product_id, customer_id, qauntity } = createOrderDto;
-    
-    // const existCustomer = await this.customerService.findOne(customer_id);
-    // if (!existCustomer) {
-      //   throw new NotFoundException(`not found this id=> ${customer_id} on Customer`);
-      // }    
-      
-    const existProduct = await this.productService.findOne(product_id)
-    if (!existProduct || !existProduct.data) {
-      // throw new NotFoundException(`not found this id => ${product_id} on Product`);
-    }
-    console.log(existProduct);
+    const { product_id, customer_id, quantity } = createOrderDto;
 
-    return getSuccess({})
-    const result = await this.orderModel.create(createOrderDto);
+    const existCustomer = await this.customerService.findOne(customer_id);
+    if (!existCustomer) {
+      throw new NotFoundException(
+        `not found this id=> ${customer_id} on Customer`,
+      );
+    }
+
+    const existProduct = await this.productService.findOne(product_id);
+    if (!existProduct || !existProduct.data) {
+      throw new NotFoundException(
+        `not found this id => ${product_id} on Product`,
+      );
+    }
+    const product = existProduct.data as Product;
+    const price = product.price;
+    const total_price = price * quantity;
+    const result = await this.orderModel.create({
+      price,
+      total_price,
+      ...createOrderDto,
+    });
     return getSuccess(result, 201);
   }
 
