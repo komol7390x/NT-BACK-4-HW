@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -36,6 +40,13 @@ export class OrderService {
       );
     }
     const product = existProduct.data as Product;
+
+    const checkQuantity = product?.stock_quantity;
+
+    if (checkQuantity < quantity) {
+      throw new ConflictException('not enough product');
+    }
+
     const price = product.price;
     const total_price = price * quantity;
     const result = await this.orderModel.create({
