@@ -15,12 +15,12 @@ export class Admin {
     @Column({type:'int'})
     age:number
 
-    @Column({type:'int',nullable:true})
+    @Column({type:'varchar',length:13,nullable:true})
     phone_number:string
 
     @CreateDateColumn()
-    createAt:Date
+    createdAt:Date
 
     @UpdateDateColumn()
-    updateAt:Date
+    updatedAt:Date
 }

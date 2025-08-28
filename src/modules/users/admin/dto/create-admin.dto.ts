@@ -14,7 +14,7 @@ export class CreateAdminDto {
     age:number
 
     @IsString()
-    @Matches(/^\+998/, { message: "Telefon +998 bilan boshlanishi kerak" })
+    @Matches(/^998/, { message: "Telefon +998 bilan boshlanishi kerak" })
     @IsOptional()
     phone_number:string
 }
