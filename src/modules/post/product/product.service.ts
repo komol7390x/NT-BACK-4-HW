@@ -24,24 +24,24 @@ export class ProductService {
   // ================================= CREATE ================================= \\
   async create(createDto: CreateProductDto): Promise<IResponse> {
 
-    const { name, category_id, saller_id } = createDto;
+    const { name, category_id, saller_id, ...rest } = createDto;
     const existName = await this.product.findOne({ where: { name } });
 
     if (existName) {
       throw new ConflictException(`this name => ${name} already exist on Product`);
     }
 
-    const existSaller = await this.sallerModel.findOne({ where: { id: saller_id } })
-    if (!existSaller) {
+    const saller = await this.sallerModel.findOne({ where: { id: saller_id } })
+    if (!saller) {
       throw new NotFoundException(`not found this id => ${saller_id} on Saller`)
     }
 
-    const existCategory = await this.categoryModel.findOne({ where: { id: category_id } })
-    if (!existCategory) {
+    const category = await this.categoryModel.findOne({ where: { id: category_id } })
+    if (!category) {
       throw new NotFoundException(`not found this id => ${category_id} on Category`)
     }
-    // delete createDto.category_id
-    const result = await this.product.save({ ...createDto, existSaller, existCategory });
+
+    const result = await this.product.save({ ...rest, name, saller, category, });
     return successRes(result, 201);
   }
 
@@ -52,20 +52,8 @@ export class ProductService {
         category: true,
         saller: true
       },
-      select: {
-        createdAt: false,
-        updatedAt: false,
-        category: {
-          createdAt: false,
-          updatedAt: false,
-        },
-        saller: {
-          createdAt: false,
-          updatedAt: false,
-        }
-      },
-      order:{
-        createdAt:'DESC'
+      order: {
+        createdAt: 'DESC'
       }
     });
     return successRes(result);
@@ -73,28 +61,18 @@ export class ProductService {
 
   // ================================= FIND ONE ================================= \\
   async findOne(id: number): Promise<IResponse> {
-    const result = await this.product.findOne({ where: { id }, relations: {
+
+    const result = await this.product.findOne({
+      where: { id },
+      relations: {
         category: true,
         saller: true
-      },
-      select: {
-        createdAt: false,
-        updatedAt: false,
-        category: {
-          createdAt: false,
-          updatedAt: false,
-        },
-        saller: {
-          createdAt: false,
-          updatedAt: false,
-        }
-      },
-      order:{
-        createdAt:'DESC'
-      } });
+      }
+    });
     if (!result) {
       throw new NotFoundException(`not found this id => ${id} on Product`);
     }
+
     return successRes(result);
   }
 
@@ -103,7 +81,7 @@ export class ProductService {
     id: number,
     updateDto: UpdateProductDto,
   ): Promise<IResponse> {
-    const { name,category_id,saller_id } = updateDto;
+    const { name, category_id, saller_id } = updateDto;
 
     if (name) {
       const existName = await this.product.findOne({ where: { name } });
