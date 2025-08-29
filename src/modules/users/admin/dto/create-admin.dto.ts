@@ -1,10 +1,17 @@
-import { IsEmail, IsNotEmpty, IsNumber, IsOptional, IsString, Matches } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+  Matches,
+} from 'class-validator';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class CreateAdminDto {
   @ApiProperty({
     example: 'Komol Komolov',
-    description: 'Adminning to\'liq ismi',
+    description: "Adminning to'liq ismi",
   })
   @IsString()
   @IsNotEmpty()
@@ -12,7 +19,7 @@ export class CreateAdminDto {
 
   @ApiProperty({
     example: 'komol@example.com',
-    description: 'Adminning email manzili (unique bo\'lishi kerak)',
+    description: "Adminning email manzili (unique bo'lishi kerak)",
   })
   @IsEmail()
   @IsNotEmpty()
@@ -31,7 +38,7 @@ export class CreateAdminDto {
     description: 'Telefon raqami, +998 bilan boshlanishi kerak',
   })
   @IsString()
-  @Matches(/^998/, { message: 'Telefon +998 bilan boshlanishi kerak' })
+  @Matches(/^998/, { message: 'Telefon 998 bilan boshlanishi kerak' })
   @IsOptional()
   phone_number: string;
 }

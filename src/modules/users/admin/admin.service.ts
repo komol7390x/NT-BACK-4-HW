@@ -19,14 +19,20 @@ export class AdminService {
 
   // ================================= CREATE ================================= \\
   async create(createAdminDto: CreateAdminDto): Promise<IResponse> {
-    const { email } = createAdminDto;
+    const { email, phone_number } = createAdminDto;
+    
     const existEmail = await this.adminModel.findOne({ where: { email } });
     if (existEmail) {
       throw new ConflictException(
         `this email => ${email} already exist on Admin`,
       );
     }
-    this.adminModel.create(createAdminDto);
+
+    const existPhone = await this.adminModel.findOne({ where: { phone_number } });
+    if (existPhone) {
+      throw new ConflictException(`this Phone => ${phone_number} already exist on Admin`,);
+    }
+
     const result = await this.adminModel.save(createAdminDto);
     return successRes(result);
   }
@@ -48,13 +54,22 @@ export class AdminService {
   }
 
   async update(id: number, updateAdminDto: UpdateAdminDto): Promise<IResponse> {
-    const { email } = updateAdminDto;
-    const existEmail = await this.adminModel.findOne({ where: { email } });
-    if (existEmail && existEmail.id != id) {
-      throw new ConflictException(
-        `this email => ${email} already exist on Admin`,
-      );
+    const { email, phone_number } = updateAdminDto;
+
+    if (email) {
+        const existEmail = await this.adminModel.findOne({ where: { email } });
+        if (existEmail && existEmail.id != id) {
+          throw new ConflictException(`this email => ${email} already exist on Admin`,);
+        }
     }
+
+    if (phone_number) {
+        const existPhone = await this.adminModel.findOne({ where: { phone_number } });
+        if (existPhone && existPhone.id!=id) {
+          throw new ConflictException(`this Phone => ${phone_number} already exist on Admin`,);
+        }
+    }
+
     await this.adminModel.update(id, { ...updateAdminDto });
     const result = await this.adminModel.findOne({ where: { id } });
     if (!result) {
