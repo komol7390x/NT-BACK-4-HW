@@ -1,4 +1,5 @@
 import {
+  ConflictException,
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
@@ -23,7 +24,7 @@ export class OrderService {
   // ================================= CREATE ================================= \\
   async create(createDto: CreateOrderDto): Promise<IResponse> {
 
-    const { product_id,customer_id, ...rest } = createDto;
+    const { product_id, customer_id, quantity, ...rest } = createDto;
 
     const customer = await this.customerModel.findOne({ where: { id: customer_id } })
     if (!customer) {
@@ -34,8 +35,16 @@ export class OrderService {
     if (!product) {
       throw new NotFoundException(`not found this id => ${product_id} on Product`)
     }
+    if (product.stock_quantity < quantity) {
+      throw new ConflictException(`not quantity this Product: ${product.name}`)
+    }
+    const price = product.price
+    const total_price = price * quantity
+    const result = await this.orderModel.save({
+      ...rest, quantity, price, total_price,
+      customer_id: customer, product_id: product,
+    });
 
-    const result = await this.orderModel.save({ ...rest,customer_id: customer, product_id: product, });
     return successRes(result, 201);
   }
 
@@ -75,9 +84,9 @@ export class OrderService {
     id: number,
     updateDto: UpdateOrderDto,
   ): Promise<IResponse> {
-    const { product_id,customer_id, ...rest } = updateDto;
+    let { product_id, customer_id, ...rest } = updateDto;
 
-    const result = await this.orderModel.findOne({
+    let result = await this.orderModel.findOne({
       where: { id },
       relations: ['customer_id', 'product_id'],
     });
@@ -85,14 +94,18 @@ export class OrderService {
     if (!result) {
       throw new NotFoundException(`not found this id => ${id} on Order`);
     }
-
-    let product = result.product_id;
+    let product: object = result.product_id;
     if (product_id) {
       const check = await this.productModel.findOne({ where: { id: product_id } });
       if (!check) {
         throw new NotFoundException(`not found this id => ${product_id} on Product`);
       }
-      product = check;
+      product = check
+      result.price = check.price
+      if(result.quantity>check.stock_quantity){
+        throw new ConflictException(`not quantity this Product: ${check.name}`)
+      }
+      result.total_price = check.price * result.quantity
     }
 
     let customer = result.customer_id;
@@ -106,6 +119,7 @@ export class OrderService {
 
     const updated = this.orderModel.merge(result, {
       ...rest,
+      ...result,
       product_id: product,
       customer_id: customer,
     });

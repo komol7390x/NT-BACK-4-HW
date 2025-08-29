@@ -2,11 +2,12 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { HttpStatus, ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { OnlyErrorLogger } from './error/error-message';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule,{
-    logger:false
-  });
+  const app = await NestFactory.create(AppModule, {
+  logger: new OnlyErrorLogger(),
+});
 
   app.setGlobalPrefix('api')
   app.useGlobalPipes(new ValidationPipe({
