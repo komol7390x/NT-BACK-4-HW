@@ -3,11 +3,13 @@ import {
   CreateDateColumn,
   Entity,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 import { Category } from '../../category/entities/category.entity';
 import { Saller } from 'src/modules/users/saller/entities/saller.entity';
+import { Order } from '../../order/entities/order.entity';
 
 @Entity('product')
 export class Product {
@@ -37,6 +39,9 @@ export class Product {
     onUpdate: 'CASCADE',
   })
   saller_id: Saller;
+
+  @OneToMany(()=>Order,(order)=>order.product_id)
+  orders:Order[]
 
   @CreateDateColumn({select:false})
   createdAt: Date;

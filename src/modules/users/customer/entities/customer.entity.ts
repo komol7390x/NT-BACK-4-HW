@@ -1,7 +1,9 @@
+import { Order } from 'src/modules/post/order/entities/order.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -25,6 +27,9 @@ export class Customer {
 
   @Column({ type: 'int', default: 0 })
   balance: number;
+
+  @OneToMany(()=>Order,(order)=>order.product_id)
+  orders:Order[]
 
   @CreateDateColumn()
   createdAt: Date;
