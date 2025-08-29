@@ -1,6 +1,15 @@
 import { IsNotEmpty, IsNumber, IsOptional, IsString, Min } from "class-validator";
 
-export class CreateProductDto {
+interface IProduct{
+    name:string
+    price:number
+    stock_quantity?:number
+    image_url?:string
+    saller_id:number
+    category_id:number
+}
+
+export class CreateProductDto implements IProduct {
 
     @IsString()
     @IsNotEmpty()

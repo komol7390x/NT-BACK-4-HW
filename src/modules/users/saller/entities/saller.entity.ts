@@ -1,7 +1,9 @@
+import { Product } from 'src/modules/post/product/entities/product.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -25,6 +27,10 @@ export class Saller {
 
   @Column({ type: 'int', default: 0 })
   balance: number;
+
+
+ @OneToMany(() => Product, (product) => product.saller)
+  products: Product[];
 
   @CreateDateColumn()
   createdAt: Date;

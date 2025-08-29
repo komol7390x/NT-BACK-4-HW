@@ -1,31 +1,46 @@
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+import { Category } from '../../category/entities/category.entity';
+import { Saller } from 'src/modules/users/saller/entities/saller.entity';
 
 @Entity('product')
 export class Product {
-    @PrimaryGeneratedColumn()
-    id: number
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column({ type: 'varchar', nullable: false,unique:true })
-    name: string
+  @Column({ type: 'varchar', nullable: false, unique: true })
+  name: string;
 
-    @Column({ type: 'int', nullable: false })
-    price: number
+  @Column({ type: 'int', nullable: false })
+  price: number;
 
-    @Column({ type: 'int', nullable: false, default: 0 })
-    stock_quantity: number
+  @Column({ type: 'int', nullable: false, default: 0 })
+  stock_quantity: number;
 
-    @Column({ type: 'varchar', nullable: true })
-    image_url: string
+  @Column({ type: 'varchar', nullable: true })
+  image_url: string;
 
-    @Column({ type: 'int', nullable: false })
-    saller_id: number
+  @ManyToOne(() => Category, (category) => category.products, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  category: Category;
 
-    @Column({ type: 'int', nullable: false })
-    category_id:number
+  @ManyToOne(() => Saller, (saller) => saller.products, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  saller: Saller;
 
-    @CreateDateColumn()
-    createdAt: Date
+  @CreateDateColumn()
+  createdAt: Date;
 
-    @UpdateDateColumn()
-    updatedAt: number
+  @UpdateDateColumn()
+  updatedAt: Date;
 }
