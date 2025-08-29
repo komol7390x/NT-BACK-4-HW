@@ -5,6 +5,9 @@ import { AdminModule } from './modules/users/admin/admin.module';
 import { SallerModule } from './modules/users/saller/saller.module';
 import { CategoryModule } from './modules/post/category/category.module';
 import { AppService } from './database/database';
+import { OrderModule } from './modules/post/order/order.module';
+import { ProductModule } from './modules/post/product/product.module';
+import { CustomerModule } from './modules/users/customer/customer.module';
 
 @Module({
   imports: [ConfigModule.forRoot({
@@ -20,7 +23,10 @@ import { AppService } from './database/database';
   }),
   AdminModule,
   SallerModule,
-  CategoryModule
+  CategoryModule,
+  OrderModule,
+  ProductModule,
+  CustomerModule
 ,],
 providers:[AppService],
 })
