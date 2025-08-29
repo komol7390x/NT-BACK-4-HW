@@ -46,13 +46,13 @@ export class SallerService {
   // ================================= FIND ALL ================================= \\
 
   async findAll(): Promise<IResponse> {
-    const result = await this.sallerModel.find();
+    const result = await this.sallerModel.find({relations:{products:true},order:{createdAt:'DESC'}});
     return successRes(result);
   }
 
   // ================================= FIND ONE ================================= \\
   async findOne(id: number): Promise<IResponse> {
-    const result = await this.sallerModel.findOne({ where: { id } });
+    const result = await this.sallerModel.findOne({ where: { id},relations:{products:true} });
     if (!result) {
       throw new NotFoundException(`this id => ${id} not found on Customer`);
     }
