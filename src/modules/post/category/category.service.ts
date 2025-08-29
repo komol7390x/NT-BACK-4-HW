@@ -30,7 +30,9 @@ export class CategoryService {
 
   // ================================= FIND ALL ================================= \\
   async findAll(): Promise<IResponse> {
-    const result = await this.category.find();
+    const result = await this.category.find({relations:{
+      products:true
+    }});
     return successRes(result);
   }
 
