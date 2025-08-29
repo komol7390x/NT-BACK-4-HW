@@ -30,13 +30,13 @@ export class Product {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
-  category: Category;
+  category_id: Category;
 
   @ManyToOne(() => Saller, (saller) => saller.products, {
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
-  saller: Saller;
+  saller_id: Saller;
 
   @CreateDateColumn({select:false})
   createdAt: Date;

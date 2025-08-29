@@ -19,7 +19,7 @@ export class Category {
   @Column({ type: 'varchar', nullable: true })
   image_url: string;
 
-  @OneToMany(() => Product, (product) => product.category)
+  @OneToMany(() => Product, (product) => product.category_id)
   products: Product[];
 
   @CreateDateColumn()

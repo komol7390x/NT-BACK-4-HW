@@ -29,7 +29,7 @@ export class Saller {
   balance: number;
 
 
- @OneToMany(() => Product, (product) => product.saller)
+ @OneToMany(() => Product, (product) => product.saller_id)
   products: Product[];
 
   @CreateDateColumn()

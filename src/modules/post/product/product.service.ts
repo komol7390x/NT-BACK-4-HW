@@ -41,7 +41,7 @@ export class ProductService {
       throw new NotFoundException(`not found this id => ${category_id} on Category`)
     }
 
-    const result = await this.product.save({ ...rest, name, saller, category, });
+    const result = await this.product.save({ ...rest, name, saller_id: saller, category_id: category, });
     return successRes(result, 201);
   }
 
@@ -49,8 +49,8 @@ export class ProductService {
   async findAll(): Promise<IResponse> {
     const result = await this.product.find({
       relations: {
-        category: true,
-        saller: true
+        category_id: true,
+        saller_id: true
       },
       order: {
         createdAt: 'DESC'
@@ -65,8 +65,8 @@ export class ProductService {
     const result = await this.product.findOne({
       where: { id },
       relations: {
-        category: true,
-        saller: true
+        category_id: true,
+        saller_id: true
       }
     });
     if (!result) {
@@ -81,24 +81,53 @@ export class ProductService {
     id: number,
     updateDto: UpdateProductDto,
   ): Promise<IResponse> {
-    const { name, category_id, saller_id } = updateDto;
+    const { name, category_id, saller_id, ...rest } = updateDto;
 
-    if (name) {
-      const existName = await this.product.findOne({ where: { name } });
-      if (existName) {
-        throw new ConflictException(`this name => ${name} already exist`);
-      }
-    }
+    const result = await this.product.findOne({
+      where: { id },
+      relations: ['saller_id', 'category_id'],
+    });
 
-    await this.product.update(id, updateDto);
-
-    const result = await this.product.findOne({ where: { id } });
     if (!result) {
       throw new NotFoundException(`not found this id => ${id} on Product`);
     }
 
-    return successRes(result);
+    if (name) {
+      const existName = await this.product.findOne({ where: { name } });
+      if (existName && existName.id !== id) {
+        throw new ConflictException(`this name => ${name} already exist`);
+      }
+    }
+
+    let saller = result.saller_id;
+    if (saller_id) {
+      const check = await this.sallerModel.findOne({ where: { id: saller_id } });
+      if (!check) {
+        throw new NotFoundException(`not found this id => ${saller_id} on Saller`);
+      }
+      saller = check;
+    }
+
+    let category = result.category_id;
+    if (category_id) {
+      const check = await this.categoryModel.findOne({ where: { id: category_id } });
+      if (!check) {
+        throw new NotFoundException(`not found this id => ${category_id} on Category`);
+      }
+      category = check;
+    }
+
+    const updated = this.product.merge(result, {
+      ...rest,
+      name,
+      saller_id: saller,
+      category_id: category,
+    });
+
+    const finish = await this.product.save(updated);
+    return successRes(finish);
   }
+
 
   // ================================= DELETE ================================= \\
   async remove(id: number): Promise<IResponse> {
