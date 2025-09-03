@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { config } from 'src/config/env.config';
+import { AdminModule } from './admin/admin.module';
 
 @Module({
   imports: [
@@ -11,6 +12,7 @@ import { config } from 'src/config/env.config';
       autoLoadEntities: true,
       entities: ['dist/core/entity/*.entity{.ts,.js'],
     }),
+    AdminModule,
   ],
 })
 export class AppModule {}
