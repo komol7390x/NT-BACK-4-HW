@@ -5,8 +5,9 @@ import { HttpStatus, ValidationPipe } from '@nestjs/common';
 
 export class Application {
   static async main(): Promise<void> {
+    
     const app = await NestFactory.create(AppModule, {
-      logger: false,
+      logger:false
     });
     app.setGlobalPrefix('api/v1');
     app.useGlobalPipes(
