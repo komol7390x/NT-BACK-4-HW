@@ -93,7 +93,7 @@ export class CustomerService {
   // ================================= DELETE ================================= \\
   async remove(id: number): Promise<IResponse> {
     const result = await this.customerModel.delete({ id });
-    if (result.affected) {
+    if (result.affected==0) {
       throw new NotFoundException(`this id => ${id} not found on Customer`);
     }
     return successRes({});
