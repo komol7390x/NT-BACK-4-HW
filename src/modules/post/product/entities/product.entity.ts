@@ -19,8 +19,9 @@ export class Product {
   @Column({ type: 'varchar', nullable: false, unique: true })
   name: string;
 
-  @Column({ type: 'int', nullable: false })
+  @Column({ type: 'int', nullable: true })
   price: number;
+
 
   @Column({ type: 'int', nullable: false, default: 0 })
   stock_quantity: number;
@@ -34,7 +35,7 @@ export class Product {
   })
   category_id: Category;
 
-  @ManyToOne(() => Saller, (saller) => saller.products, {
+  @ManyToOne(() => Saller, (saller) => saller.products, { 
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
