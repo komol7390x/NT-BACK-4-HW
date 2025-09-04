@@ -81,7 +81,9 @@ export class AdminService {
   // ================================= DELETE ================================= \\
   async remove(id: number): Promise<IResponse> {
     const result = await this.adminModel.delete({ id });
-    if (result.affected) {
+    console.log(result);
+    
+    if (result.affected==0) {
       throw new NotFoundException(`this id => ${id} not found on Admin`);
     }
     return successRes({});
