@@ -1,5 +1,9 @@
-export enum Roles{
-    ADMIN='ADMIN',
+export enum UserRoles{
     LIBRARIAN='LIBRARIAN',
     READER='READER'
+}
+
+export enum AdminRoles{
+    ADMIN='ADMIN',
+    SUPERADMIN='SUPERADMIN'
 }

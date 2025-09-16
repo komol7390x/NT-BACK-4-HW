@@ -18,7 +18,8 @@ type ConfigType = {
         EMAIL: string,
         PASSWORD: string,
         USERNAME: string,
-        ID: number
+        ID: number,
+        FULL_NAME:string
     }
 }
 
@@ -40,6 +41,7 @@ export const config: ConfigType = {
         EMAIL: String(process.env.SUPERADMIN_EMAIL),
         USERNAME: String(process.env.SUPERADMIN_USERNAME),
         ID: Number(process.env.SUPERADMIN_ID),
+        FULL_NAME:String(process.env.SUPERADMIN_FULL_NAME)
     }
 }
 

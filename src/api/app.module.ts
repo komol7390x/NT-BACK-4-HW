@@ -6,10 +6,11 @@ import { BookHistoryModule } from './book/book_history/book_history.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { config } from 'src/config/env-config';
 import { JwtModule } from '@nestjs/jwt';
+import { AdminModule } from './user/admin/admin.module';
 
 @Module({
   // -------------------- DATABASE --------------------
-  
+
   imports: [TypeOrmModule.forRoot({
     type: 'postgres',
     url: String(config.DB_URL,),
@@ -21,6 +22,9 @@ import { JwtModule } from '@nestjs/jwt';
   // -------------------- JWT --------------------
 
   JwtModule.register({ global: true }),
-    UserModule, BookModule, BorrowModule, BookHistoryModule],
+
+    // -------------------- MODULE --------------------
+
+    UserModule, BookModule, BorrowModule, BookHistoryModule, AdminModule],
 })
 export class AppModule { }

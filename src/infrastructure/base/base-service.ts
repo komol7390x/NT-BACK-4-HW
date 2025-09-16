@@ -1,8 +1,8 @@
 import { DeepPartial, ObjectLiteral, Repository } from "typeorm";
 import { IFindOption, ISuccessRes } from "../success-res/success-interface";
 import { successRes } from "../success-res/success-res";
-import { BadRequestException, NotFoundException } from "@nestjs/common";
-import { config } from "src/config/env-config";
+import { NotFoundException } from "@nestjs/common";
+import { QueryDeepPartialEntity } from "typeorm/query-builder/QueryPartialEntity.js";
 
 export class BaseService<CreateDto, UpdateDto, Entity extends ObjectLiteral> {
     constructor(private readonly baseRepo: Repository<Entity>) { }
@@ -26,12 +26,14 @@ export class BaseService<CreateDto, UpdateDto, Entity extends ObjectLiteral> {
     // ---------------------------- FIND ALL ----------------------------
 
     async findAll(options?: IFindOption<Entity>) {
+        console.log(1111);
+        
         const data = await this.baseRepo.find({
-            select: options?.select || {},
-            relations: options?.relations || [],
-            where: { ...(options?.where as Entity), is_deleted: false },
+            // select: options?.select || {},
+            // relations: options?.relations || [],
+            // where: { ...(options?.where as Entity), is_deleted: false },
         })
-
+        
         // return success
         return successRes(data)
     }
@@ -43,7 +45,7 @@ export class BaseService<CreateDto, UpdateDto, Entity extends ObjectLiteral> {
         const data = await this.baseRepo.find({
             select: options?.select || {},
             relations: options?.relations || [],
-            where:{...(options?.where as Entity), is_deleted: false },
+            where: { ...(options?.where as Entity), is_deleted: false },
         });
 
         // not found
@@ -54,6 +56,7 @@ export class BaseService<CreateDto, UpdateDto, Entity extends ObjectLiteral> {
         }
         return successRes(data);
     }
+
     // ---------------------------- FIND BY ID ----------------------------
 
     async findOneById(id: number, options?: IFindOption<Entity>): Promise<ISuccessRes> {
@@ -79,14 +82,64 @@ export class BaseService<CreateDto, UpdateDto, Entity extends ObjectLiteral> {
         repository: Repository<T>,
         id: number,
     ): Promise<ISuccessRes> {
+
+        // find by id
         const data = await repository.findOne({
             where: { id, is_deleted: false } as unknown as Entity,
         });
+
+        // if not found
         if (!data) {
             throw new NotFoundException(
                 `not found this id => ${id} on ${String(repository.metadata.name).split('Entity')[0]}`,
             );
         }
+
+        // return success
         return successRes(data);
     }
+
+    // ---------------------------- UPDATE ----------------------------
+
+    async update(id:number,dto:UpdateDto):Promise<ISuccessRes>{
+
+        // check id
+        await this.findOneById(id)
+
+        // update
+        await this.baseRepo.update(id,dto as QueryDeepPartialEntity<Entity>)
+
+        // return by id
+        const {data}=await this.findOneById(id)
+
+        return successRes(data)
+    }
+
+    // ---------------------------- SOFT DELETE ----------------------------
+
+    async softDelete(id:number):Promise<ISuccessRes>{
+
+        // check id
+        await this.findOneById(id)
+
+        // update is_deleted:true
+        await this.baseRepo.update(id,{is_deleted:true} as unknown as QueryDeepPartialEntity<Entity>)
+
+        // return success
+        return successRes({})
+    }
+
+    // ---------------------------- DELETE ----------------------------
+
+     async remove(id:number):Promise<ISuccessRes>{
+
+        // check id
+        await this.findOneById(id)
+
+        // delete
+        await this.baseRepo.delete(id)
+
+        return successRes({})
+    }
+
 }

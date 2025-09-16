@@ -2,23 +2,24 @@ import { Column, CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } fr
 
 export abstract class BaseEntity {
 
-// ------------------ ID ------------------
+    // ------------------ ID ------------------
 
     @PrimaryGeneratedColumn()
     id: number
-    
-// ------------------ IS DELETED ------------------
 
-    @Column({type:'boolean',nullable:true,default:false})
-    is_deleted:boolean
+    // ------------------ IS DELETED ------------------
 
-// ------------------ CREATED AT ------------------
+    @Column({ type: 'boolean', nullable: true, default: false })
+    is_deleted: boolean
+
+    // ------------------ CREATED AT ------------------
 
     @CreateDateColumn()
-    createdAt:Date
+    createdAt: Date
 
     // ------------------ UPDATED AT ------------------
 
     @UpdateDateColumn()
-    updatedAt:Date
+    updatedAt: Date
+
 }

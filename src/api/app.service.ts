@@ -10,9 +10,7 @@ export class Application {
 
         // ------------------ DATABASE ------------------
         
-        const app:any = await NestFactory.create(AppModule, {
-            logger: ['error', 'warn', 'log'],
-        });
+        const app = await NestFactory.create(AppModule);
 
         // ------------------ VALIDATSIYA ------------------
 
@@ -39,10 +37,6 @@ export class Application {
         // ------------------ COOKIE PARSE ------------------
 
         app.use(cookieParser())
-
-        // ------------------ GLOBAL PROFIX ------------------
-
-        app.setGlobalPrefix(config.API_VERSION)
 
         // ------------------ PORT ------------------
 

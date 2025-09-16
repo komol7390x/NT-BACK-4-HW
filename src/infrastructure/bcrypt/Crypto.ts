@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { hash, compare } from 'bcrypt'
 
 @Injectable()
-export class CrypoService {
+export class CryptoService {
     // ----------------------- ENCRYPT -----------------------
 
     async encrypt(data: string): Promise<string> {
