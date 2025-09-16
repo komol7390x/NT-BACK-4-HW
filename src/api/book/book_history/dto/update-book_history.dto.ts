@@ -1,4 +1,9 @@
-import { PartialType } from '@nestjs/swagger';
-import { CreateBookHistoryDto } from './create-book_history.dto';
+import { ApiPropertyOptional } from '@nestjs/swagger';
+import { IsOptional, IsString } from 'class-validator';
 
-export class UpdateBookHistoryDto extends PartialType(CreateBookHistoryDto) {}
+export class UpdateBookHistoryDto {
+  @ApiPropertyOptional({ description: 'Action', example: 'action' })
+  @IsString()
+  @IsOptional()
+  action?: string;
+}

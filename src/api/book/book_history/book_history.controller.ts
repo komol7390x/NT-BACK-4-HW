@@ -22,7 +22,7 @@ import { AccessRoles } from 'src/common/decorator/roles-decorator';
 
 @Controller('book-history')
 export class BookHistoryController {
-  constructor(private readonly bookHistoryService: BookHistoryService) {}
+  constructor(private readonly bookHistoryRepo: BookHistoryService) {}
 
   // ------------------ CREATE ------------------
   // SWAGGER
@@ -42,7 +42,7 @@ export class BookHistoryController {
   @ApiBearerAuth()
   // CREATE
   create(@Body() createBookDto: CreateBookHistoryDto) {
-    return this.bookHistoryService.create(createBookDto);
+    return this.bookHistoryRepo.create(createBookDto);
   }
 
   // ------------------ GET ALL ------------------
@@ -58,7 +58,7 @@ export class BookHistoryController {
   @Get()
   // FIND ALL
   findAll() {
-    return this.bookHistoryService.findAll();
+    return this.bookHistoryRepo.findAll();
   }
 
   // ------------------ GET ONE ------------------
@@ -69,7 +69,7 @@ export class BookHistoryController {
   @Get(':id')
   // FIND ONE
   findOne(@Param('id') id: string) {
-    return this.bookHistoryService.findOne(+id);
+    return this.bookHistoryRepo.findOneById(+id);
   }
 
   // ------------------ UPDATE ------------------
@@ -87,7 +87,7 @@ export class BookHistoryController {
     @Param('id') id: string,
     @Body() updateBookHistoryDto: UpdateBookHistoryDto,
   ) {
-    return this.bookHistoryService.update(+id, updateBookHistoryDto);
+    return this.bookHistoryRepo.update(+id, updateBookHistoryDto);
   }
 
   // ------------------ SOFT DELETE ------------------
@@ -102,7 +102,7 @@ export class BookHistoryController {
   @ApiBearerAuth()
   // SOFT DELETE
   softRemove(@Param('id') id: string) {
-    return this.bookHistoryService.remove(+id);
+    return this.bookHistoryRepo.remove(+id);
   }
 
   // ------------------ DELETE ------------------
@@ -117,6 +117,6 @@ export class BookHistoryController {
   @ApiBearerAuth()
   // DELETE
   remove(@Param('id') id: string) {
-    return this.bookHistoryService.remove(+id);
+    return this.bookHistoryRepo.remove(+id);
   }
 }

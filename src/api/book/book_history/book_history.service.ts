@@ -1,26 +1,50 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { CreateBookHistoryDto } from './dto/create-book_history.dto';
 import { UpdateBookHistoryDto } from './dto/update-book_history.dto';
+import { BaseService } from 'src/infrastructure/base/base-service';
+import { BookHistoryEntity } from 'src/core/entity/book/book-history-entity';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
-export class BookHistoryService {
-  create(createBookHistoryDto: CreateBookHistoryDto) {
-    return 'This action adds a new bookHistory';
+export class BookHistoryService extends BaseService<
+  CreateBookHistoryDto,
+  UpdateBookHistoryDto,
+  BookHistoryEntity
+> {
+  constructor(
+    @InjectRepository(BookHistoryEntity)
+    private readonly bookHistoryRepo: Repository<BookHistoryEntity>,
+  ) {
+    super(bookHistoryRepo);
   }
 
-  findAll() {
-    return `This action returns all bookHistory`;
+  // ------------------------- CREATE -------------------------
+  async createBookHistory(createDto: CreateBookHistoryDto) {
+    const { action } = createDto;
+    // Tekshirish: shu action bilan record mavjudmi?
+    const exist = await this.bookHistoryRepo.findOne({ where: { action } as any});
+    if (exist) {
+      throw new ConflictException(
+        `This action => ${action} already exists in BookHistory`,
+      );
+    }
+    return super.create(createDto);
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} bookHistory`;
-  }
-
-  update(id: number, updateBookHistoryDto: UpdateBookHistoryDto) {
-    return `This action updates a #${id} bookHistory`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} bookHistory`;
+  // ------------------------- UPDATE -------------------------
+  async updateBookHistory(id: number, updateDto: UpdateBookHistoryDto) {
+    const { action } = updateDto;
+    if (action) {
+      const exist = await this.bookHistoryRepo.findOne({
+        where: { action },
+      } as any);
+      if (exist && exist.id !== id) {
+        throw new ConflictException(
+          `This action => ${action} already exists in BookHistory`,
+        );
+      }
+    }
+    return super.update(id, updateDto);
   }
 }
