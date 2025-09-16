@@ -277,20 +277,7 @@ export class UserController {
 
   // FIND ONE
   findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.userService.findOneById(+id, {
-      where: {
-        is_deleted: false,
-        role: UserRoles.LIBRARIAN || UserRoles.READER,
-      },
-      select: {
-        id: true,
-        email: true,
-        role: true,
-        full_name: true,
-        createdAt: true,
-        is_active: true,
-      },
-    });
+    return this.userService.findOneById(+id,{where:{is_deleted:false}});
   }
 
   // ================================= UPDATE =================================
