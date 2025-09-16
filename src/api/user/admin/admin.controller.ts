@@ -46,7 +46,7 @@ export class AdminController {
     private readonly adminService: AdminService,
   ) { }
 
-  // ================================= CREATED =================================
+  // ------------------------------------ CREATED ------------------------------------
 
   // SWAGGER
   @ApiOperation({ summary: 'Created Admin' })
@@ -70,7 +70,7 @@ export class AdminController {
     return this.adminService.createAdmin(createAdminDto);
   }
 
-  // ================================= SIGN IN =================================
+  // ------------------------------------ SIGN IN ------------------------------------
 
   // SWAGGER
   @ApiOperation({ summary: 'Sign In' })
@@ -87,7 +87,8 @@ export class AdminController {
     return this.adminService.signIn(signInDto, res);
   }
 
-  // ================================= NEW TOKEN =================================
+  // ------------------------------------ NEW TOKEN ------------------------------------
+
   @ApiOperation({ summary: 'New Token' })
   @ApiResponse(SwaggerResponse.ApiSuccessResponse(SwaggerDate.tokenRes))
 
@@ -99,7 +100,7 @@ export class AdminController {
     // return this.authService.newToken(this.adminService.getRepository, token);
   }
 
-  // ================================= SIGN OUT =================================
+  // ------------------------------------ SIGN OUT ------------------------------------
 
   // SWAGGER
   @ApiOperation({ summary: 'Sign out' })
@@ -125,7 +126,7 @@ export class AdminController {
     //   TokenUser.Admin,
     // );
   }
-  // ================================= UPDATE OLD PASSWORD =================================
+  // ------------------------------------ UPDATE OLD PASSWORD ------------------------------------
 
   // SWAGGER
   @ApiOperation({ summary: 'Update Password' })
@@ -156,7 +157,7 @@ export class AdminController {
     //   this.adminService.getRepository,
     // );
   }
-  // ================================= GET ALL PAGENATION =================================
+  // ------------------------------------ GET ALL PAGENATION ------------------------------------
   // SWAGGER
   @ApiOperation({ summary: 'Find All Pagenation' })
   @ApiResponse(SwaggerResponse.ApiSuccessResponse(SwaggerDate.adminDate))
@@ -174,7 +175,7 @@ export class AdminController {
     const { query, limit, page } = queryDto;
     return this.adminService.findAllWithPagination(query, limit, page);
   }
-  // ================================= GET ALL =================================
+  // ------------------------------------ GET ALL ------------------------------------
 
   // SWAGGER
   @ApiOperation({ summary: 'Get All Admin' })
@@ -202,7 +203,7 @@ export class AdminController {
     });
   }
 
-  // ================================= GET ONE =================================
+  // ------------------------------------ GET ONE ------------------------------------
 
   // SWAGGER
   @ApiOperation({ summary: 'Get one' })
@@ -228,7 +229,7 @@ export class AdminController {
     });
   }
 
-  // ================================= UPDATE =================================
+  // ------------------------------------ UPDATE ------------------------------------
 
   // SWAGGER
   @ApiOperation({ summary: 'Update Admin' })
@@ -255,7 +256,8 @@ export class AdminController {
     return this.adminService.updateAdmin(+id, updateAdminDto, user);
   }
 
-  // ================================= SOFT DELETE =================================
+  // ------------------------------------ SOFT DELETE ------------------------------------
+  
   // SWAGGER
   @ApiOperation({ summary: 'Soft delete Admin' })
   @ApiParam(SwaggerResponse.ApiParam())
@@ -276,7 +278,7 @@ export class AdminController {
     }
     return this.adminService.softDelete(+id);
   }
-  // ================================= DELETE =================================
+  // ------------------------------------ DELETE ------------------------------------
 
   // SWAGGER
   @ApiOperation({ summary: 'Delete Admin' })
