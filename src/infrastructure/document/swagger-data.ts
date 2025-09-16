@@ -37,7 +37,23 @@ export class SwaggerDate {
         is_active: true
     }
 
-    static userAll={
+    static userAll = {
+        id: 5,
+        is_deleted: false,
+        createdAt: "2025-09-16T11:20:41.675Z",
+        updatedAt: "2025-09-16T11:20:41.675Z",
+        full_name: "User User",
+        username: "user126",
+        hashed_password: "$2b$07$ZKsUTZhVSWmQkR2puXmYwep3vXRRzeOjMTf8A6XL2kt4bkoPUWKAO",
+        role: "LIBRARY",
+        is_active: true
+    }
 
+    static bookDate = {
+        id: 1,
+        title: "Lord Rings",
+        author: "J.R.Tolkin",
+        published_year: "2008-08-02",
+        avialable: true
     }
 }

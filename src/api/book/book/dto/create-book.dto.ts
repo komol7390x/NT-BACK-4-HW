@@ -5,7 +5,7 @@ export class CreateBookDto {
   // ------------------ TITLE ------------------
   @ApiProperty({
     description: 'The title of the book',
-    example: 'Clean Code',
+    example: 'Lord Rings',
   })
   @IsString()
   title: string;
@@ -13,7 +13,7 @@ export class CreateBookDto {
   // ------------------ AUTHOR ------------------
   @ApiProperty({
     description: 'The author of the book',
-    example: 'Robert C. Martin',
+    example: 'J.R.Tolkin',
   })
   @IsString()
   author: string;
@@ -21,7 +21,8 @@ export class CreateBookDto {
   // ------------------ PUBLISHED YEAR ------------------
   @ApiProperty({
     description: 'The year the book was published',
-    example: '2008',
+    example: '2008-08-02',
+    pattern: '^\\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$',
   })
   @IsString()
   published_year: string;

@@ -8,18 +8,17 @@ export class CreateUserDto {
     @IsNotEmpty()
     full_name: string
 
-    @ApiProperty({ description: 'User full email', example: 'User123' })
+    @ApiProperty({ description: 'User email', example: 'www.komol7390@gmail.com' })
     @IsEmail()
     @IsNotEmpty()
     email: string
 
-    @ApiProperty({ description: 'User full password', example: '@User123!@' })
+    @ApiProperty({ description: 'User password', example: '@User123!@' })
     @IsStrongPassword()
     @IsNotEmpty()
     password: string
 
-    @ApiProperty({ description: 'User full password', example: '@User123!@', enum: UserRoles })
-    @IsStrongPassword()
+    @ApiProperty({ description: 'User Role', default:UserRoles.READER })
     @IsNotEmpty()
     role: UserRoles
 }

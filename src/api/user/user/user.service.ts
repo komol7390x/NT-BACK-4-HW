@@ -51,7 +51,7 @@ export class UserService extends BaseService<CreateUserDto,UpdateUserDto,UserEnt
     const existEmail = await this.userRepo.findOne({ where: { email } });
     if (existEmail) {
       throw new ConflictException(
-        `this user => ${email} is already exist on Customer`,
+        `this user => ${email} is already exist on users`,
       );
     }
 
@@ -61,7 +61,7 @@ export class UserService extends BaseService<CreateUserDto,UpdateUserDto,UserEnt
     // generate otp
     const otp = generatorOTP(config.OTP_NUMBER);
 
-    // save Customer
+    // save users
     const data = { ...rest, email, hashed_password, otp };
 
 
@@ -69,14 +69,14 @@ export class UserService extends BaseService<CreateUserDto,UpdateUserDto,UserEnt
     const result = JSON.stringify(data);
 
     // save redis
-    await this.redis.setRedis(email, result, 5);
+    await this.redis.setRedis(email, result, 600);
 
     // return success
     return successRes({ email ,otp});
   }
 
 
-  // ================================ REGSTRATION CUSTOMER (2/2) ================================
+  // ================================ REGSTRATION USER (2/2) ================================
 
   async registrationOtp(emailWithOtp: EmailWithDto): Promise<ISuccessRes> {
 
@@ -87,15 +87,18 @@ export class UserService extends BaseService<CreateUserDto,UpdateUserDto,UserEnt
     const existEmail = await this.userRepo.findOne({ where: { email } });
     if (existEmail) {
       throw new ConflictException(
-        `this is email => ${email} already exist on Customer`,
+        `this is email => ${email} already exist on User`,
       );
     }
-
+    
     // confirm otp
-    const redisFind = await this.redis.getRedis(email);
+    const redisFind = await this.redis.getRedis(email);        
+
     if (!redisFind) {
       throw new BadRequestException('Email is invalid');
     }
+
+    // JSON parse
     const user = JSON.parse(redisFind);
 
     // invalid otp is error
@@ -109,22 +112,22 @@ export class UserService extends BaseService<CreateUserDto,UpdateUserDto,UserEnt
     // delete otp on data
     delete user.otp;
     delete user.new_password;
-
+    
     // save create
     return super.create(user);
   }
 
-  // ================================ UPDATE CUSTOMER ================================
+  // ================================ UPDATE ================================
 
-  async updateCustomer(
+  async updateUser(
     id: number,
     updateUserDto: UpdateUserDto,
     user: IToken,
   ) {
-    // check Customer
+    // check User
     const customer = await this.userRepo.findOne({ where: { id } });
     if (!customer) {
-      throw new NotFoundException(`not found this id => ${id} on Customer`);
+      throw new NotFoundException(`not found this id => ${id} on user`);
     }
 
     const { email, password, is_active } = updateUserDto;
@@ -153,7 +156,7 @@ export class UserService extends BaseService<CreateUserDto,UpdateUserDto,UserEnt
       }
     }
 
-    // update Customer
+    // update users
     await this.userRepo.update(
       { id },
       { email, hashed_password, is_active: active },
@@ -170,7 +173,7 @@ export class UserService extends BaseService<CreateUserDto,UpdateUserDto,UserEnt
     const { email } = forgetPassword;
     const exist = await this.userRepo.findOne({ where: { email } });
     if (!exist) {
-      throw new NotFoundException(`this ${email} not found on Customer`);
+      throw new NotFoundException(`this ${email} not found on users`);
     }
 
     // take OTP
@@ -193,7 +196,7 @@ export class UserService extends BaseService<CreateUserDto,UpdateUserDto,UserEnt
     // get email
     const exist = await this.userRepo.findOne({ where: { email } });
     if (!exist) {
-      throw new NotFoundException(`this ${email} not found on Customer`);
+      throw new NotFoundException(`this ${email} not found on users`);
     }
 
     // check OTP
@@ -215,7 +218,7 @@ export class UserService extends BaseService<CreateUserDto,UpdateUserDto,UserEnt
     // get email
     const exist = await this.userRepo.findOne({ where: { email } });
     if (!exist) {
-      throw new NotFoundException(`this ${email} not found on Customer`);
+      throw new NotFoundException(`this ${email} not found on users`);
     }
 
     // hashed password

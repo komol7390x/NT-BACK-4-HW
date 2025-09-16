@@ -58,7 +58,7 @@ export class UserController {
     SwaggerResponse.ApiSuccessResponse(
       SwaggerDate.userDate,
       HttpStatus.OK,
-      'Created Customer',
+      'Created User',
     ),
   )
   // ENDPOINT
@@ -236,7 +236,7 @@ export class UserController {
   // ================================= GET ALL =================================
 
   // SWAGGER
-  @ApiOperation({ summary: 'Get All Customer' })
+  @ApiOperation({ summary: 'Get All User' })
   @ApiResponse(SwaggerResponse.ApiSuccessResponse([SwaggerDate.userDate, SwaggerDate.userDate]))
 
   // GUARD
@@ -296,7 +296,7 @@ export class UserController {
   // ================================= UPDATE =================================
 
   // SWAGGER
-  @ApiOperation({ summary: 'Update Customer' })
+  @ApiOperation({ summary: 'Update User' })
   @ApiParam(SwaggerResponse.ApiParam())
   @ApiResponse(SwaggerResponse.ApiSuccessResponse(SwaggerDate.userDate))
 
@@ -314,13 +314,13 @@ export class UserController {
     @Param('id', ParseIntPipe) id: number,
     @Body() updateUserDto: UpdateUserDto,
   ) {
-    return this.userService.updateCustomer(+id, updateUserDto, user);
+    return this.userService.updateUser(+id, updateUserDto, user);
   }
 
   // ================================= SOFT DELETE =================================
 
   // SWAGGER
-  @ApiOperation({ summary: 'Soft delete Customer' })
+  @ApiOperation({ summary: 'Soft delete User' })
   @ApiParam(SwaggerResponse.ApiParam())
   @ApiResponse(SwaggerResponse.ApiSuccessResponse({}))
 
@@ -340,7 +340,7 @@ export class UserController {
   // ================================= DELETE =================================
 
   // SWAGGER
-  @ApiOperation({ summary: 'Delete Customer' })
+  @ApiOperation({ summary: 'Delete users' })
   @ApiResponse(SwaggerResponse.ApiSuccessResponse({}))
 
   // GUARD

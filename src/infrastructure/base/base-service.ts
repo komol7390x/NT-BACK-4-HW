@@ -20,13 +20,12 @@ export class BaseService<CreateDto, UpdateDto, Entity extends ObjectLiteral> {
         delete data.is_deleted
         delete data.createdAt
         delete data.updatedAt
-
+        
         return successRes(data)
     }
     // ---------------------------- FIND ALL ----------------------------
 
     async findAll(options?: IFindOption<Entity>) {
-        console.log(1111);
         
         const data = await this.baseRepo.find({...options})
         
