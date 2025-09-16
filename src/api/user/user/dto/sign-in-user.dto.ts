@@ -4,20 +4,20 @@ import {
   IsString,
 } from 'class-validator';
 
-export class SignInAdminDto {
-  // --------------------------------------- USERNAME ---------------------------------------
+export class SignInUSerDto {
+  // --------------------------------------- EMAIL ---------------------------------------
   @ApiProperty({
-    description: 'Adminning username',
-    example: 'komol1234',
+    description: 'User email',
+    example: 'wwww.exmaple@gmail.com',
     minLength: 3,
   })
   @IsString()
   @IsNotEmpty()
-  username: string;
+  email: string;
 
   // --------------------------------------- PASSSWORD ---------------------------------------
   @ApiProperty({
-    description: 'Adminning kuchli paroli',
+    description: 'User password',
     example: '@Komol7390x',
   })
   @IsNotEmpty()

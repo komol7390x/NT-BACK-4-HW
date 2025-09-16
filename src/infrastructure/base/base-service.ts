@@ -28,11 +28,7 @@ export class BaseService<CreateDto, UpdateDto, Entity extends ObjectLiteral> {
     async findAll(options?: IFindOption<Entity>) {
         console.log(1111);
         
-        const data = await this.baseRepo.find({
-            // select: options?.select || {},
-            // relations: options?.relations || [],
-            // where: { ...(options?.where as Entity), is_deleted: false },
-        })
+        const data = await this.baseRepo.find({...options})
         
         // return success
         return successRes(data)

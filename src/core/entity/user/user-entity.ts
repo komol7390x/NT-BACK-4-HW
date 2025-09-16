@@ -18,7 +18,7 @@ export class UserEntity extends BaseEntity {
     // ------------------ PASSWORD ------------------
 
     @Column({ type: 'varchar' })
-    password: string
+    hashed_password: string
 
     // ------------------ ROLE ------------------
 

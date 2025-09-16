@@ -33,17 +33,20 @@ import { AdminRoles } from 'src/common/enum/Role';
 import { CookieGetter } from 'src/common/decorator/cookie-parse';
 import { TokenUser } from 'src/common/enum/Token-user';
 import { config } from 'src/config/env-config';
-import { QueryPagination } from 'src/infrastructure/paganation/oage-dto.entity';
 import { GetUser } from 'src/common/decorator/get-request';
 import type { IToken } from 'src/infrastructure/token/token-interface';
 import { SignInAdminDto } from './dto/sign-in-admin.dto';
 import type { Response } from 'express';
+import { AuthService } from '../auth/auth.service';
+import { UpdatePassword } from '../auth/dto/update-password/update-password';
+import { QueryPagination } from 'src/infrastructure/paganation/oage-dto.entity';
 
 @ApiTags('Admin')
 @Controller('admin')
 export class AdminController {
   constructor(
     private readonly adminService: AdminService,
+    private readonly authService: AuthService
   ) { }
 
   // ------------------------------------ CREATED ------------------------------------
@@ -74,7 +77,7 @@ export class AdminController {
 
   // SWAGGER
   @ApiOperation({ summary: 'Sign In' })
-  @ApiResponse(SwaggerResponse.ApiSuccessResponse({}))
+  @ApiResponse(SwaggerResponse.ApiSuccessResponse(SwaggerDate.tokenRes))
 
   // ENDPOINT
   @Post('signin')
@@ -97,7 +100,7 @@ export class AdminController {
 
   // NEW TOKEN
   newToken(@CookieGetter(TokenUser.Admin) token: string) {
-    // return this.authService.newToken(this.adminService.getRepository, token);
+    return this.authService.newToken(this.adminService.getRepository, token);
   }
 
   // ------------------------------------ SIGN OUT ------------------------------------
@@ -119,12 +122,12 @@ export class AdminController {
     @CookieGetter(TokenUser.Admin) token: string,
     @Res({ passthrough: true }) res: Response,
   ) {
-    // return this.authService.signOut(
-    //   this.adminService.getRepository,
-    //   token,
-    //   res,
-    //   TokenUser.Admin,
-    // );
+    return this.authService.signOut(
+      this.adminService.getRepository,
+      token,
+      res,
+      TokenUser.Admin,
+    );
   }
   // ------------------------------------ UPDATE OLD PASSWORD ------------------------------------
 
@@ -143,21 +146,29 @@ export class AdminController {
 
   // UPDATE PASSWORD
   updatePassoword(
+    @GetUser('user') user: IToken,
     @Param('id', ParseIntPipe) id: number,
-    // @Body() updatePassword: UpdatePassword,
+    @Body() updatePassword: UpdatePassword,
   ) {
     if (id == config.SUPERADMIN.ID) {
       throw new ConflictException(`you could not this id => ${id} on Admin`);
     }
-    // const { old_password, new_password } = updatePassword;
-    // return this.authService.UpdatePassword(
-    //   old_password,
-    //   new_password,
-    //   id,
-    //   this.adminService.getRepository,
-    // );
+
+    if (user.id == id || user.role == AdminRoles.SUPERADMIN) {
+       const { old_password, new_password } = updatePassword;
+    return this.authService.UpdatePassword(
+      old_password,
+      new_password,
+      id,
+      this.adminService.getRepository,
+    );
+    }else{
+      throw new ConflictException(`you could not this id=> ${id}`)
+    }
+   
   }
   // ------------------------------------ GET ALL PAGENATION ------------------------------------
+
   // SWAGGER
   @ApiOperation({ summary: 'Find All Pagenation' })
   @ApiResponse(SwaggerResponse.ApiSuccessResponse(SwaggerDate.adminDate))
@@ -198,6 +209,7 @@ export class AdminController {
         username: true,
         role: true,
         full_name: true,
+        createdAt: true
       },
       order: { createdAt: 'DESC' },
     });
@@ -257,7 +269,7 @@ export class AdminController {
   }
 
   // ------------------------------------ SOFT DELETE ------------------------------------
-  
+
   // SWAGGER
   @ApiOperation({ summary: 'Soft delete Admin' })
   @ApiParam(SwaggerResponse.ApiParam())

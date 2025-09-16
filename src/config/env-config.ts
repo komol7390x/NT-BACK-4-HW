@@ -20,7 +20,9 @@ type ConfigType = {
         USERNAME: string,
         ID: number,
         FULL_NAME:string
-    }
+    },
+    OTP_NUMBER:number,
+    UPDATE_URL:string
 }
 
 export const config: ConfigType = {
@@ -42,6 +44,8 @@ export const config: ConfigType = {
         USERNAME: String(process.env.SUPERADMIN_USERNAME),
         ID: Number(process.env.SUPERADMIN_ID),
         FULL_NAME:String(process.env.SUPERADMIN_FULL_NAME)
-    }
+    },
+    OTP_NUMBER:Number(process.env.OTP_NUMBER),
+    UPDATE_URL:String(process.env.UPDATE_URL)
 }
 

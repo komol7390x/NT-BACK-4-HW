@@ -1,1 +1,25 @@
-export class CreateUserDto {}
+import { ApiProperty } from "@nestjs/swagger"
+import { IsEmail, IsNotEmpty, IsString, IsStrongPassword } from "class-validator"
+import { UserRoles } from "src/common/enum/Role"
+
+export class CreateUserDto {
+    @ApiProperty({ description: 'User full name', example: 'User User' })
+    @IsString()
+    @IsNotEmpty()
+    full_name: string
+
+    @ApiProperty({ description: 'User full email', example: 'User123' })
+    @IsEmail()
+    @IsNotEmpty()
+    email: string
+
+    @ApiProperty({ description: 'User full password', example: '@User123!@' })
+    @IsStrongPassword()
+    @IsNotEmpty()
+    password: string
+
+    @ApiProperty({ description: 'User full password', example: '@User123!@', enum: UserRoles })
+    @IsStrongPassword()
+    @IsNotEmpty()
+    role: UserRoles
+}

@@ -88,8 +88,8 @@ export class AdminService
     // save Admin
     const data = this.adminRepo.create({ ...rest, username, hashed_password });
 
-    await this.adminRepo.save(data);
-
+    const result= await this.adminRepo.save(data);
+    
     return successRes(data);
   }
 
@@ -191,6 +191,7 @@ export class AdminService
     query: string = '',
     limit: number = 10,
     page: number = 1,
+    username:string=''
   ) {
     
     // fix skip and take
@@ -199,18 +200,19 @@ export class AdminService
     // count
     const [user, count] = await this.adminRepo.findAndCount({
       where: {
-        username: ILike(`%${query}%`),
+        full_name: ILike(`%${query}%`),
         is_deleted: false,
         role: AdminRoles.ADMIN,
       } as unknown as FindOptionsWhere<AdminEntity>,
       order: {
         createdAt: 'DESC' as any,
       },
+
       select: {
         id: true,
-        name: true,
+        username:true,
+        full_name: true,
         role: true,
-        balance: true,
       } as any,
       take,
       skip,
