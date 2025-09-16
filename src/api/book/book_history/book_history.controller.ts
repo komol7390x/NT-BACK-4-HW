@@ -1,33 +1,121 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  HttpStatus,
+  UseGuards,
+} from '@nestjs/common';
 import { BookHistoryService } from './book_history.service';
 import { CreateBookHistoryDto } from './dto/create-book_history.dto';
 import { UpdateBookHistoryDto } from './dto/update-book_history.dto';
+import { ApiBearerAuth, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { SwaggerResponse } from 'src/common/swagger/swagger-response';
+import { SwaggerDate } from 'src/infrastructure/document/swagger-data';
+import { AuthGuard } from 'src/common/guard/auth-guard';
+import { RolesGuard } from 'src/common/guard/role-guard';
+import { AdminRoles, UserRoles } from 'src/common/enum/Role';
+import { AccessRoles } from 'src/common/decorator/roles-decorator';
 
 @Controller('book-history')
 export class BookHistoryController {
   constructor(private readonly bookHistoryService: BookHistoryService) {}
 
+  // ------------------ CREATE ------------------
+  // SWAGGER
+  @ApiOperation({ summary: 'Create Book History' })
+  @ApiResponse(
+    SwaggerResponse.ApiSuccessResponse(
+      SwaggerDate.adminDate,
+      HttpStatus.CREATED,
+      'Book history created',
+    ),
+  )
+  // GUARD
+  @UseGuards(AuthGuard, RolesGuard)
+  @AccessRoles(AdminRoles.SUPERADMIN, AdminRoles.ADMIN, UserRoles.READER)
+  // ENDPOINT
   @Post()
-  create(@Body() createBookHistoryDto: CreateBookHistoryDto) {
-    return this.bookHistoryService.create(createBookHistoryDto);
+  @ApiBearerAuth()
+  // CREATE
+  create(@Body() createBookDto: CreateBookHistoryDto) {
+    return this.bookHistoryService.create(createBookDto);
   }
 
+  // ------------------ GET ALL ------------------
+  // SWAGGER
+  @ApiOperation({ summary: 'Get All Book Histories' })
+  @ApiResponse(
+    SwaggerResponse.ApiSuccessResponse([
+      SwaggerDate.bookDate,
+      SwaggerDate.bookDate,
+    ]),
+  )
+  // ENDPOINT
   @Get()
+  // FIND ALL
   findAll() {
     return this.bookHistoryService.findAll();
   }
 
+  // ------------------ GET ONE ------------------
+  // SWAGGER
+  @ApiOperation({ summary: 'Get One Book History' })
+  @ApiResponse(SwaggerResponse.ApiSuccessResponse(SwaggerDate.bookDate))
+  // ENDPOINT
   @Get(':id')
+  // FIND ONE
   findOne(@Param('id') id: string) {
     return this.bookHistoryService.findOne(+id);
   }
 
+  // ------------------ UPDATE ------------------
+  // SWAGGER
+  @ApiOperation({ summary: 'Update Book History' })
+  @ApiResponse(SwaggerResponse.ApiSuccessResponse(SwaggerDate.adminDate))
+  // GUARD
+  @UseGuards(AuthGuard, RolesGuard)
+  @AccessRoles(AdminRoles.SUPERADMIN, AdminRoles.ADMIN, UserRoles.READER)
+  // ENDPOINT
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateBookHistoryDto: UpdateBookHistoryDto) {
+  @ApiBearerAuth()
+  // UPDATE
+  update(
+    @Param('id') id: string,
+    @Body() updateBookHistoryDto: UpdateBookHistoryDto,
+  ) {
     return this.bookHistoryService.update(+id, updateBookHistoryDto);
   }
 
+  // ------------------ SOFT DELETE ------------------
+  // SWAGGER
+  @ApiOperation({ summary: 'Soft Delete Book History' })
+  @ApiResponse(SwaggerResponse.ApiSuccessResponse(SwaggerDate.adminDate))
+  // GUARD
+  @UseGuards(AuthGuard, RolesGuard)
+  @AccessRoles(AdminRoles.SUPERADMIN, AdminRoles.ADMIN, UserRoles.READER)
+  // ENDPOINT
+  @Patch(':id/soft')
+  @ApiBearerAuth()
+  // SOFT DELETE
+  softRemove(@Param('id') id: string) {
+    return this.bookHistoryService.remove(+id);
+  }
+
+  // ------------------ DELETE ------------------
+  // SWAGGER
+  @ApiOperation({ summary: 'Delete Book History' })
+  @ApiResponse(SwaggerResponse.ApiSuccessResponse(SwaggerDate.adminDate))
+  // GUARD
+  @UseGuards(AuthGuard, RolesGuard)
+  @AccessRoles(AdminRoles.SUPERADMIN)
+  // ENDPOINT
   @Delete(':id')
+  @ApiBearerAuth()
+  // DELETE
   remove(@Param('id') id: string) {
     return this.bookHistoryService.remove(+id);
   }
