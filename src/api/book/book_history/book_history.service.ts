@@ -22,7 +22,6 @@ export class BookHistoryService extends BaseService<
   // ------------------------- CREATE -------------------------
   async createBookHistory(createDto: CreateBookHistoryDto) {
     const { action } = createDto;
-    // Tekshirish: shu action bilan record mavjudmi?
     const exist = await this.bookHistoryRepo.findOne({ where: { action } as any});
     if (exist) {
       throw new ConflictException(
