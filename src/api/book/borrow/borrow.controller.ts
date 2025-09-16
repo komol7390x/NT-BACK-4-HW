@@ -19,7 +19,7 @@ export class BorrowController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.borrowService.findOne(+id);
+    return this.borrowService.findOneById(+id);
   }
 
   @Patch(':id')
