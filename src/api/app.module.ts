@@ -13,7 +13,7 @@ import { AdminModule } from './user/admin/admin.module';
 
   imports: [TypeOrmModule.forRoot({
     type: 'postgres',
-    url: String(config.DB_URL,),
+    url: (config.DB_URL),
     synchronize: true,
     entities: ['dist/core/entity/*.entity{.ts,.js}'],
     autoLoadEntities: true, logging: ['error', 'warn'],
