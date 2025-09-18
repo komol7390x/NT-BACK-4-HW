@@ -29,7 +29,7 @@ export class BookHistoryController {
   @ApiOperation({ summary: 'Create Book History' })
   @ApiResponse(
     SwaggerResponse.ApiSuccessResponse(
-      SwaggerDate.adminDate,
+      SwaggerDate.BookhistoryDate,
       HttpStatus.CREATED,
       'Book history created',
     ),
@@ -42,7 +42,7 @@ export class BookHistoryController {
   @ApiBearerAuth()
   // CREATE
   create(@Body() createBookDto: CreateBookHistoryDto) {
-    return this.bookHistoryRepo.create(createBookDto);
+    return this.bookHistoryRepo.createBookHistory(createBookDto);
   }
 
   // ------------------ GET ALL ------------------
@@ -50,8 +50,8 @@ export class BookHistoryController {
   @ApiOperation({ summary: 'Get All Book Histories' })
   @ApiResponse(
     SwaggerResponse.ApiSuccessResponse([
-      SwaggerDate.bookDate,
-      SwaggerDate.bookDate,
+      SwaggerDate.BookhistoryDate,
+      SwaggerDate.BookhistoryDate,
     ]),
   )
   // ENDPOINT
@@ -64,7 +64,7 @@ export class BookHistoryController {
   // ------------------ GET ONE ------------------
   // SWAGGER
   @ApiOperation({ summary: 'Get One Book History' })
-  @ApiResponse(SwaggerResponse.ApiSuccessResponse(SwaggerDate.bookDate))
+  @ApiResponse(SwaggerResponse.ApiSuccessResponse(SwaggerDate.BookhistoryDate))
   // ENDPOINT
   @Get(':id')
   // FIND ONE
@@ -75,7 +75,7 @@ export class BookHistoryController {
   // ------------------ UPDATE ------------------
   // SWAGGER
   @ApiOperation({ summary: 'Update Book History' })
-  @ApiResponse(SwaggerResponse.ApiSuccessResponse(SwaggerDate.adminDate))
+  @ApiResponse(SwaggerResponse.ApiSuccessResponse(SwaggerDate.BookhistoryDate))
   // GUARD
   @UseGuards(AuthGuard, RolesGuard)
   @AccessRoles(AdminRoles.SUPERADMIN, AdminRoles.ADMIN, UserRoles.READER)
@@ -87,13 +87,13 @@ export class BookHistoryController {
     @Param('id') id: string,
     @Body() updateBookHistoryDto: UpdateBookHistoryDto,
   ) {
-    return this.bookHistoryRepo.update(+id, updateBookHistoryDto);
+    return this.bookHistoryRepo.updateBookHistory(+id, updateBookHistoryDto);
   }
 
   // ------------------ SOFT DELETE ------------------
   // SWAGGER
   @ApiOperation({ summary: 'Soft Delete Book History' })
-  @ApiResponse(SwaggerResponse.ApiSuccessResponse(SwaggerDate.adminDate))
+  @ApiResponse(SwaggerResponse.ApiSuccessResponse(SwaggerDate.BookhistoryDate))
   // GUARD
   @UseGuards(AuthGuard, RolesGuard)
   @AccessRoles(AdminRoles.SUPERADMIN, AdminRoles.ADMIN, UserRoles.READER)
@@ -108,7 +108,7 @@ export class BookHistoryController {
   // ------------------ DELETE ------------------
   // SWAGGER
   @ApiOperation({ summary: 'Delete Book History' })
-  @ApiResponse(SwaggerResponse.ApiSuccessResponse(SwaggerDate.adminDate))
+  @ApiResponse(SwaggerResponse.ApiSuccessResponse(SwaggerDate.BookhistoryDate))
   // GUARD
   @UseGuards(AuthGuard, RolesGuard)
   @AccessRoles(AdminRoles.SUPERADMIN)

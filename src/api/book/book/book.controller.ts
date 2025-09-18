@@ -18,7 +18,7 @@ export class BookController {
   @ApiOperation({ summary: 'Created Book' })
   @ApiResponse(
     SwaggerResponse.ApiSuccessResponse(
-      SwaggerDate.adminDate,
+      SwaggerDate.bookDate,
       HttpStatus.CREATED,
       'Book created',
     ),
@@ -33,7 +33,7 @@ export class BookController {
 
   // CREATED
   create(@Body() createBookDto: CreateBookDto) {
-    return this.bookService.create(createBookDto);
+    return this.bookService.createBook(createBookDto);
   }
   // ------------------ GET ALL ------------------
   // SWAGGER
@@ -57,7 +57,7 @@ export class BookController {
   // ------------------ GET ONE ------------------
   // SWAGGER
   @ApiOperation({ summary: 'Get One Book' })
-  @ApiResponse(SwaggerResponse.ApiSuccessResponse([SwaggerDate.bookDate, SwaggerDate.bookDate]))
+  @ApiResponse(SwaggerResponse.ApiSuccessResponse([SwaggerDate.bookDate]))
 
 
   @Get(':id')
@@ -75,8 +75,7 @@ export class BookController {
   // ------------------ SOFT DELETE ------------------
   @ApiOperation({ summary: 'Soft Delete Book' })
   @ApiResponse(
-    SwaggerResponse.ApiSuccessResponse(
-      SwaggerDate.adminDate),
+    SwaggerResponse.ApiSuccessResponse({}),
   )
 
   // GUARD
@@ -94,8 +93,7 @@ export class BookController {
   // ------------------ UPDATE ------------------
   @ApiOperation({ summary: 'Update Book' })
   @ApiResponse(
-    SwaggerResponse.ApiSuccessResponse(
-      SwaggerDate.adminDate),
+    SwaggerResponse.ApiSuccessResponse(SwaggerDate.bookDate),
   )
   // GUARD
   @UseGuards(AuthGuard, RolesGuard)
@@ -107,13 +105,12 @@ export class BookController {
 
   //UPDATE
   update(@Param('id') id: string, @Body() updateBookDto: UpdateBookDto) {
-    return this.bookService.update(+id, updateBookDto);
+    return this.bookService.updateBook(+id, updateBookDto as any);
   }
   // ------------------ DELETE ------------------
   @ApiOperation({ summary: 'Delete Book' })
   @ApiResponse(
-    SwaggerResponse.ApiSuccessResponse(
-      SwaggerDate.adminDate),
+    SwaggerResponse.ApiSuccessResponse({}),
   )
 
   // GUARD

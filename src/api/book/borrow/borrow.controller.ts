@@ -44,7 +44,7 @@ export class BorrowController {
 
   // CREATE
   create(@Body() createBorrowDto: CreateBorrowDto) {
-    return this.borrowService.create(createBorrowDto);
+    return this.borrowService.createBorrow(createBorrowDto);
   }
 
   // ------------------ GET ALL ------------------
@@ -52,8 +52,8 @@ export class BorrowController {
   @ApiOperation({ summary: 'Get All Borrows' })
   @ApiResponse(
     SwaggerResponse.ApiSuccessResponse([
-      SwaggerDate.bookDate,
-      SwaggerDate.bookDate,
+      SwaggerDate.borrowDate,
+      SwaggerDate.borrowDate,
     ]),
   )
   //ENDPONT
@@ -63,6 +63,7 @@ export class BorrowController {
   findAll() {
     return this.borrowService.findAll({
       where: { is_deleted: false },
+      select:{borrow_date:true,due_date:true,overdue:true},
       order: { createdAt: 'DESC' },
     });
   }
@@ -70,7 +71,7 @@ export class BorrowController {
   // ------------------ GET ONE ------------------
   // SWAGGER
   @ApiOperation({ summary: 'Get One Borrow' })
-  @ApiResponse(SwaggerResponse.ApiSuccessResponse(SwaggerDate.bookDate))
+  @ApiResponse(SwaggerResponse.ApiSuccessResponse(SwaggerDate.borrowDate))
   // ENDPONT
   @Get(':id')
 
@@ -94,7 +95,7 @@ export class BorrowController {
   @ApiBearerAuth()
   // UPDATE
   update(@Param('id') id: string, @Body() updateBorrowDto: UpdateBorrowDto) {
-    return this.borrowService.update(+id, updateBorrowDto);
+    return this.borrowService.updateBorrow(+id, updateBorrowDto);
   }
 
   // ------------------ SOFT DELETE ------------------

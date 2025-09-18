@@ -56,4 +56,23 @@ export class SwaggerDate {
         published_year: "2008-08-02",
         avialable: true
     }
+
+    static borrowDate = {
+        "borrow_date": "2025-09-16",
+        "due_date": "2025-09-23",
+        "return_date": "2025-09-20",
+        "overdue": false
+    }
+
+    static BookhistoryDate = {
+
+
+        "statusCode": 200,
+        "message": "success",
+        "data": {
+            "id": 3,
+            "action": "Action"
+
+        }
+    }
 }

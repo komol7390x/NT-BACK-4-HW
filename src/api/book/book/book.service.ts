@@ -8,29 +8,30 @@ import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
-export class BookService extends BaseService<CreateBookDto,UpdateBookDto,BookEntity> {
-  constructor(@InjectRepository(BookEntity) private readonly bookRepo:Repository<BookEntity> ){super(bookRepo)}
+export class BookService extends BaseService<CreateBookDto, UpdateBookDto, BookEntity> {
+  constructor(@InjectRepository(BookEntity) private readonly bookRepo: Repository<BookEntity>) { super(bookRepo) }
 
   // ------------------------- CREATE -------------------------
   async createBook(createDto: CreateBookDto) {
-    const {title}=createDto
-    const exist=await this.bookRepo.findOne({where:{title}})
-    if(exist){
+    const { title } = createDto
+    const exist = await this.bookRepo.findOne({ where: { title } })
+    if (exist) {
       throw new ConflictException(`this book => ${title} already exist on Book`)
     }
     return super.create(createDto)
   }
 
-   // ------------------------- UPDATE -------------------------
-  async updateBook(createDto: CreateBookDto) {
-    const {title}=createDto
-    if(title){
-      const exist=await this.bookRepo.findOne({where:{title}})
-      if(exist){
+  // ------------------------- UPDATE -------------------------
+  async updateBook(id:number,updateBook: UpdateBookDto) {
+    await this.findOneById(id)
+    const { title } = updateBook
+    if (title) {
+      const exist = await this.bookRepo.findOne({ where: { title } })
+      if (exist) {
         throw new ConflictException(`this book => ${title} already exist on Book`)
       }
-      return super.create(createDto)
+      return super.update(id,updateBook)
     }
-    }
-  
+  }
+
 }
