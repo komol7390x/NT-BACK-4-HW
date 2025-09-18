@@ -290,7 +290,6 @@ export class UserService extends BaseService<CreateUserDto,UpdateUserDto,UserEnt
       where: {
         name: ILike(`%${query}%`),
         is_deleted: false,
-        role: UserRoles.LIBRARIAN || UserRoles.READER,
       } as unknown as FindOptionsWhere<UserEntity>,
       order: {
         createdAt: 'DESC' as any,
