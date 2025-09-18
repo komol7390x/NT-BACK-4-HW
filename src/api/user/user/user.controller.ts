@@ -250,7 +250,7 @@ export class UserController {
   // FIND ALL
   findAll() {
     return this.userService.findAll({
-      where: { is_deleted: false, role: UserRoles.LIBRARIAN || UserRoles.READER },
+      where: { is_deleted: false},
       select: {
         id: true,
         role: true,

@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
-import { Action } from 'src/common/enum/action';
+import {IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateBookHistoryDto {
   @ApiProperty({ description: 'action',example:'Action' })
