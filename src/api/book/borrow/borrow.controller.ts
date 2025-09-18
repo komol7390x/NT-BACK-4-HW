@@ -29,7 +29,7 @@ export class BorrowController {
   @ApiOperation({ summary: 'Create Borrow' })
   @ApiResponse(
     SwaggerResponse.ApiSuccessResponse(
-      SwaggerDate.adminDate,
+      SwaggerDate.borrowDate,
       HttpStatus.CREATED,
       'Borrow created',
     ),
@@ -86,7 +86,7 @@ export class BorrowController {
   // ------------------ UPDATE ------------------
   // SWAGGER
   @ApiOperation({ summary: 'Update Borrow' })
-  @ApiResponse(SwaggerResponse.ApiSuccessResponse(SwaggerDate.adminDate))
+  @ApiResponse(SwaggerResponse.ApiSuccessResponse(SwaggerDate.borrowDate))
   // GUARD
   @UseGuards(AuthGuard, RolesGuard)
   @AccessRoles(AdminRoles.SUPERADMIN, AdminRoles.ADMIN, UserRoles.LIBRARIAN)
@@ -101,7 +101,7 @@ export class BorrowController {
   // ------------------ SOFT DELETE ------------------
   // SWAGGER
   @ApiOperation({ summary: 'Soft Delete Borrow' })
-  @ApiResponse(SwaggerResponse.ApiSuccessResponse(SwaggerDate.adminDate))
+  @ApiResponse(SwaggerResponse.ApiSuccessResponse(SwaggerDate.borrowDate))
   // GUARD
   @UseGuards(AuthGuard, RolesGuard)
   @AccessRoles(AdminRoles.SUPERADMIN, AdminRoles.ADMIN, UserRoles.LIBRARIAN)
@@ -116,7 +116,7 @@ export class BorrowController {
   // ------------------ DELETE ------------------
   // SWAGGER
   @ApiOperation({ summary: 'Delete Borrow' })
-  @ApiResponse(SwaggerResponse.ApiSuccessResponse(SwaggerDate.adminDate))
+  @ApiResponse(SwaggerResponse.ApiSuccessResponse(SwaggerDate.borrowDate))
   // GUARD
   @UseGuards(AuthGuard, RolesGuard)
   @AccessRoles(AdminRoles.SUPERADMIN)

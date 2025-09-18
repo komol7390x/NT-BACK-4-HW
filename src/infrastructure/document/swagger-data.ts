@@ -27,23 +27,18 @@ export class SwaggerDate {
 
     static userDate = {
         id: 5,
-        is_deleted: false,
-        createdAt: "2025-09-16T11:20:41.675Z",
-        updatedAt: "2025-09-16T11:20:41.675Z",
         full_name: "User User",
-        username: "user126",
-        hashed_password: "$2b$07$ZKsUTZhVSWmQkR2puXmYwep3vXRRzeOjMTf8A6XL2kt4bkoPUWKAO",
+        email: "www.exapmle@gmail.com",
         role: "LIBRARY",
         is_active: true
     }
 
     static userAll = {
         id: 5,
-        is_deleted: false,
         createdAt: "2025-09-16T11:20:41.675Z",
         updatedAt: "2025-09-16T11:20:41.675Z",
         full_name: "User User",
-        username: "user126",
+        email: "www.exapmle@gmail.com",
         hashed_password: "$2b$07$ZKsUTZhVSWmQkR2puXmYwep3vXRRzeOjMTf8A6XL2kt4bkoPUWKAO",
         role: "LIBRARY",
         is_active: true
@@ -65,14 +60,7 @@ export class SwaggerDate {
     }
 
     static BookhistoryDate = {
-
-
-        "statusCode": 200,
-        "message": "success",
-        "data": {
-            "id": 3,
-            "action": "Action"
-
-        }
+        "id": 3,
+        "action": "Action"
     }
 }
